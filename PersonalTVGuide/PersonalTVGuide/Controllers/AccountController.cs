@@ -10,6 +10,9 @@ using Microsoft.Web.WebPages.OAuth;
 using WebMatrix.WebData;
 using PersonalTVGuide.Filters;
 using PersonalTVGuide.Models;
+using CaptchaMvc.Attributes;
+using CaptchaMvc.HtmlHelpers;
+using CaptchaMvc.Interface;
 
 namespace PersonalTVGuide.Controllers
 {
@@ -69,7 +72,7 @@ namespace PersonalTVGuide.Controllers
         //
         // POST: /Account/Register
 
-        [HttpPost]
+        [HttpPost, CaptchaVerify("Captcha is not valid")]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
         public ActionResult Register(RegisterModel model)
@@ -88,7 +91,11 @@ namespace PersonalTVGuide.Controllers
                     ModelState.AddModelError("", ErrorCodeToString(e.StatusCode));
                 }
             }
-
+            //else
+            //{
+            //    TempData["ErrorMessage"] = "Error: captcha is not valid.";
+            //    return View();
+            //}
             // If we got this far, something failed, redisplay form
             return View(model);
         }

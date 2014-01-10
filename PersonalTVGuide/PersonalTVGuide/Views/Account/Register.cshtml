@@ -1,4 +1,5 @@
 ﻿@model PersonalTVGuide.Models.RegisterModel
+@using CaptchaMvc.HtmlHelpers
 @{
     ViewBag.Title = "Register";
 }
@@ -28,6 +29,12 @@
                 @Html.PasswordFor(m => m.ConfirmPassword)
             </li>
         </ol>
+         <div id="Captcha">
+            
+            @Html.MathCaptcha("Refresh", "Answer", "Is required field.", true)
+          
+            </div>
+
         <input type="submit" value="Register" />
     </fieldset>
 }

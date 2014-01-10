@@ -20,7 +20,7 @@
                 <div class="float-right">
                     <section id="login">
                         @Html.Partial("_LoginPartial")
-                    </section>
+                    @*</section>*@
                     <nav>
                         <ul id="menu">
                             <li>@Html.ActionLink("Home", "Index", "Home")</li>
@@ -37,10 +37,15 @@
                 @RenderBody()
             </section>
         </div>
+
+         <div id="sidebar">
+            @RenderSection("SideBar", required : false)
+        </div>
+        
         <footer>
             <div class="content-wrapper">
                 <div class="float-left">
-                    <p>&copy; @DateTime.Now.Year - My ASP.NET MVC Application</p>
+                    <p>&copy; @DateTime.Now.Year - Frank</p>
                 </div>
             </div>
         </footer>
