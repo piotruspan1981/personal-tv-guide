@@ -1,16 +1,19 @@
 ﻿html {
-    background-color: #e2e2e2;
+    /* background-image: url('../Images/gray-light-bg.jpg');*/
+    background-color: white;
     margin: 0;
     padding: 0;
 }
 
 body {
+    position : relative;
+    width : 1100px;
     background-color: #fff;
     border-top: solid 10px #000;
     color: #333;
     font-size: .85em;
     font-family: "Segoe UI", Verdana, Helvetica, Sans-Serif;
-    margin: 0;
+    margin: 0px auto;
     padding: 0;
 }
 
@@ -99,9 +102,17 @@ h5, h6 {
 }
 
 #body {
+    width : 900px;
+    float : left;
     background-color: #efeeef;
     clear: both;
     padding-bottom: 35px;
+}
+#sidebar {
+    width : 200px;
+    float : right;
+    
+     background: #999;
 }
 
     .main-content {
@@ -122,7 +133,7 @@ footer {
     clear: both;
     background-color: #e2e2e2;
     font-size: .8em;
-    height: 100px;
+    height: 50px;
 }
 
 
