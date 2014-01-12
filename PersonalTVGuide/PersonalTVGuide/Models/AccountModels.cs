@@ -74,14 +74,14 @@ namespace PersonalTVGuide.Models
     public class RegisterModel
     {
         [Required]
-        [Display(Name = "Email Address")]
-        [StringLength(40)]
-        public string Email { get; set; }
-
-        [Required]
-        [System.Web.Mvc.Remote("VerifyUserExists", "Account", ErrorMessage = "That Username is already taken.")]
         [Display(Name = "User name")]
         public string UserName { get; set; }
+
+        [Required]
+        [StringLength(80, ErrorMessage = "The {0} is invalid.")]
+        [DataType(DataType.EmailAddress)]
+        [Display(Name = "Email Address")]
+        public string Email { get; set; }
 
         [Required]
         [StringLength(100, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 6)]

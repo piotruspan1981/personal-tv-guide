@@ -82,7 +82,9 @@ namespace PersonalTVGuide.Controllers
                 // Attempt to register the user
                 try
                 {
-                    WebSecurity.CreateUserAndAccount(model.UserName, model.Email, model.Password);
+                    // Nieuwe uitbreidingen op het Registeren pagina moeten  binnen new { model.Email, model.blaat, model.asd }
+                    // Anders klopt de 3e parameter van CreateUserAndAccount niet. Dat is een dictionary met objects property values.
+                    WebSecurity.CreateUserAndAccount(model.UserName, model.Password, new { model.Email });
                     WebSecurity.Login(model.UserName, model.Password);
                     return RedirectToAction("Index", "Home");
                 }
