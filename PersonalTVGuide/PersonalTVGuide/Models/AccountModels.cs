@@ -25,6 +25,7 @@ namespace PersonalTVGuide.Models
         [DatabaseGeneratedAttribute(DatabaseGeneratedOption.Identity)]
         public int UserId { get; set; }
         public string UserName { get; set; }
+        public string Email { get; set; }
     }
 
     public class RegisterExternalLoginModel
@@ -73,6 +74,12 @@ namespace PersonalTVGuide.Models
     public class RegisterModel
     {
         [Required]
+        [Display(Name = "Email Address")]
+        [StringLength(40)]
+        public string Email { get; set; }
+
+        [Required]
+        [System.Web.Mvc.Remote("VerifyUserExists", "Account", ErrorMessage = "That Username is already taken.")]
         [Display(Name = "User name")]
         public string UserName { get; set; }
 
