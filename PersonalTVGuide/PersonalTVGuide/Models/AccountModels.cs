@@ -80,6 +80,8 @@ namespace PersonalTVGuide.Models
         [Required]
         [StringLength(80, ErrorMessage = "The {0} is invalid.")]
         [DataType(DataType.EmailAddress)]
+        [RegularExpression(@"^[A-Za-z0-9](([_\.\-]?[a-zA-Z0-9]+)*)@([A-Za-z0-9]+)(([\.\-??]?[a-zA-Z0-9]+)*)\.([A-Za-z]{2,})$",
+            ErrorMessage = "Email is not valid")]
         [Display(Name = "Email Address")]
         public string Email { get; set; }
 
