@@ -13,6 +13,7 @@ using PersonalTVGuide.Models;
 using CaptchaMvc.Attributes;
 using CaptchaMvc.HtmlHelpers;
 using CaptchaMvc.Interface;
+using Postal;
 
 namespace PersonalTVGuide.Controllers
 {
@@ -82,11 +83,22 @@ namespace PersonalTVGuide.Controllers
                 // Attempt to register the user
                 try
                 {
-                    // Nieuwe uitbreidingen op het Registeren pagina moeten  binnen new { model.Email, model.blaat, model.asd }
-                    // Anders klopt de 3e parameter van CreateUserAndAccount niet. Dat is een dictionary met objects property values.
-                    WebSecurity.CreateUserAndAccount(model.UserName, model.Password, new { model.Email });
-                    WebSecurity.Login(model.UserName, model.Password);
-                    return RedirectToAction("Index", "Home");
+                    //// Nieuwe uitbreidingen op het Registeren pagina moeten  binnen new { model.Email, model.blaat, model.asd }
+                    //// Anders klopt de 3e parameter van CreateUserAndAccount niet. Dat is een dictionary met objects property values.
+                    //WebSecurity.CreateUserAndAccount(model.UserName, model.Password, new { model.Email });
+                    //WebSecurity.Login(model.UserName, model.Password);
+                    //return RedirectToAction("Index", "Home");
+
+                    string confirmationToken =
+                    WebSecurity.CreateUserAndAccount(model.UserName, model.Password, new { Email = model.Email }, true);
+                    dynamic email = new Email("RegEmail");
+                    email.To = model.Email;
+                    email.UserName = model.UserName;
+                    email.ConfirmationToken = confirmationToken;
+                    email.Send();
+
+                    return RedirectToAction("RegisterStepTwo", "Account");
+
                 }
                 catch (MembershipCreateUserException e)
                 {
@@ -100,6 +112,35 @@ namespace PersonalTVGuide.Controllers
             //}
             // If we got this far, something failed, redisplay form
             return View(model);
+        }
+
+
+        [AllowAnonymous]
+        public ActionResult RegisterStepTwo()
+        {
+            return View();
+        }
+
+        [AllowAnonymous]
+        public ActionResult RegisterConfirmation(string Id)
+        {
+            if (WebSecurity.ConfirmAccount(Id))
+            {
+                return RedirectToAction("ConfirmationSuccess");
+            }
+            return RedirectToAction("ConfirmationFailure");
+        }
+
+        [AllowAnonymous]
+        public ActionResult ConfirmationSuccess()
+        {
+            return View();
+        }
+
+        [AllowAnonymous]
+        public ActionResult ConfirmationFailure()
+        {
+            return View();
         }
 
         //
