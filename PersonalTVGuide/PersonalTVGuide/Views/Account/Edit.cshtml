@@ -1,0 +1,32 @@
+﻿@model PersonalTVGuide.Models.UserProfile
+
+@{
+    ViewBag.Title = "Edit";
+}
+
+<h2>Edit</h2>
+@using (Html.BeginForm()) {
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary()
+
+    <fieldset>
+        <legend>Edit Form</legend>
+
+        @Html.HiddenFor(m => m.UserId)
+        @Html.HiddenFor(m => m.UserName)
+
+        <ol>
+         
+            <li>
+                @Html.LabelFor(m => m.Email)
+                @Html.TextBoxFor(m => m.Email)
+                @Html.ValidationMessageFor(m=> m.Email)
+            </li>
+         </ol>
+     </fieldset>
+    <input type="submit" value="Save" />
+    }
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
