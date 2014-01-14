@@ -14,13 +14,17 @@ using CaptchaMvc.Attributes;
 using CaptchaMvc.HtmlHelpers;
 using CaptchaMvc.Interface;
 using Postal;
+using System.Data.Entity;
 
 namespace PersonalTVGuide.Controllers
 {
+   
+
     [Authorize]
     [InitializeSimpleMembership]
     public class AccountController : Controller
     {
+        private UsersContext db = new UsersContext();
         //
         // GET: /Account/Login
 
@@ -48,7 +52,51 @@ namespace PersonalTVGuide.Controllers
             ModelState.AddModelError("", "The user name or password provided is incorrect.");
             return View(model);
         }
+        
 
+        public ActionResult Profile()
+        {
+            // pakt UserID van ingelogde user
+            object Userid = Membership.GetUser().ProviderUserKey;
+            // zoekt informatie uit DB die bij de UserID hoort
+            UserProfile profile = db.UserProfiles.Find(Userid);
+                
+            if (profile == null)
+            {
+                return HttpNotFound();
+            }
+            // geeft de waardes die in profile staan door aan de view
+            return View(profile);
+        }
+
+        public ActionResult Edit()
+        {
+            // pakt UserID van ingelogde user
+            object Userid = Membership.GetUser().ProviderUserKey;
+            // zoekt informatie uit DB die bij de UserID hoort
+            UserProfile profile = db.UserProfiles.Find(Userid);
+
+            if (profile == null)
+            {
+                return HttpNotFound();
+            }
+            // geeft de waardes die in profile staan door aan de view
+            return View(profile);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Edit(UserProfile profile)
+        {
+            if (ModelState.IsValid)
+            {
+                
+                db.Entry(profile).State = EntityState.Modified;
+                db.SaveChanges();
+                return RedirectToAction("Profile");
+            }
+            return View(profile);
+        }
         //
         // POST: /Account/LogOff
 
