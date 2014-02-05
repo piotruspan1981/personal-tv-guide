@@ -34,9 +34,9 @@ namespace PersonalTVGuide.Controllers
         public ActionResult Testen()
         {
             // Haal eerst de resultaten op van de zoekactie
-            var trip = new TvRageInformationProvider();
+            var tvrip = new TvRageInformationProvider();
             var showList = new List<Show>();
-            showList = trip.GetShows("Lost");
+            showList = tvrip.GetShows("Lost");
             
             ViewBag.ShowCount = "Aantal gevonden shows: " + showList.Count;
 
@@ -51,12 +51,28 @@ namespace PersonalTVGuide.Controllers
                 });
             }
 
-            ViewBag.StateType = ddlItems;
+            ViewBag.ddlShows = ddlItems;
 
             return View();
         }
 
-        // later gebruiken
+        [HttpPost]
+        public ActionResult ShowAllDetails()
+        {
+            // Haal de details op
+            var tvrip = new TvRageInformationProvider();
+            var show = new Show();
+
+            show = trip.GetFullDetails(Convert.ToInt32(Request.Form["ddlShows"]));
+            var resultString = "";
+
+            resultString += getShow(show); 
+
+            ViewBag.ShowResult = resultString;
+
+            return View();
+        }
+
         public string getShow(Show s)
         {
             var resultstring = "";
@@ -70,6 +86,21 @@ namespace PersonalTVGuide.Controllers
             resultstring += "Season count: " + s.Seasons.Count + "<br />";
             resultstring += "Show ID: " + Convert.ToString(s.ShowId) + "<br />";
             resultstring += "<br /><br />";
+
+            foreach (var z in s.Seasons)
+            {
+                resultstring += "### SEASON: " + z.SeasonNumber + "###<br />";
+                foreach (var y in z.Episodes)
+                {
+                    resultstring += "Season nr.: " + z.SeasonNumber + "<br />";
+                    resultstring += "Episode nr.: " + y.EpisodeNumber + "<br />";
+                    resultstring += "Episode Title: " + y.Title + "<br />";
+                    resultstring += "Airdate: " + y.AirDate + "<br />";
+                    resultstring += "<br /><br />";
+                }
+            }
+
+            // mss nog uitbreiden
 
             return resultstring;
         }
