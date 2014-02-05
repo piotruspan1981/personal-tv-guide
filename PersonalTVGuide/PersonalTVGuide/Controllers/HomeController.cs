@@ -33,23 +33,30 @@ namespace PersonalTVGuide.Controllers
 
         public ActionResult Testen()
         {
-            var resultString = "";
-            var bla = new TvRageInformationProvider();
+            // Haal eerst de resultaten op van de zoekactie
+            var trip = new TvRageInformationProvider();
             var showList = new List<Show>();
-            showList = bla.GetShows("Lost");
+            showList = trip.GetShows("Lost");
             
             ViewBag.ShowCount = "Aantal gevonden shows: " + showList.Count;
 
+            var ddlItems = new List<SelectListItem>();
+
             foreach (var s in showList)
             {
-                resultString += getShow(s);
+                ddlItems.Add(new SelectListItem 
+                { 
+                    Text = s.Name, 
+                    Value = Convert.ToString(s.ShowId) 
+                });
             }
 
-            ViewBag.Results = resultString;
+            ViewBag.StateType = ddlItems;
 
             return View();
         }
 
+        // later gebruiken
         public string getShow(Show s)
         {
             var resultstring = "";
