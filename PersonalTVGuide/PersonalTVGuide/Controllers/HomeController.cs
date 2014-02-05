@@ -63,7 +63,7 @@ namespace PersonalTVGuide.Controllers
             var tvrip = new TvRageInformationProvider();
             var show = new Show();
 
-            show = trip.GetFullDetails(Convert.ToInt32(Request.Form["ddlShows"]));
+            show = tvrip.GetFullDetails(Convert.ToInt32(Request.Form["ddlShows"]));
             var resultString = "";
 
             resultString += getShow(show); 
