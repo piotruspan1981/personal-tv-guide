@@ -1,5 +1,5 @@
 ﻿@{
-    ViewBag.Title = "Testen van TVRage verbinding shit";
+    ViewBag.Title = "Resultaat van gekozen show";
 }
 
 <hgroup class="title">
@@ -8,19 +8,8 @@
 
 <article>
     <p>
-        @ViewBag.ShowCount <br /><br />
 
-        @using (Html.BeginForm("ShowAllDetails", "Home", FormMethod.Post))
-        {
-            @Html.DropDownList("ddlShows")
-
-            <input type="submit" value="submit" />
-        }
-
-        <br />
-        @ViewBag.ShowResult
-
-        
+        @Html.Raw(ViewBag.ShowResult)
 
     </p>
 </article>
