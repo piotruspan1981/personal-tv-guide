@@ -204,8 +204,13 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="InformationProviders\IInformationProvider.cs" />
+    <Compile Include="InformationProviders\TvRageInformationProvider.cs" />
     <Compile Include="Models\AccountModels.cs" />
+    <Compile Include="TVShowObjects\Episode.cs" />
+    <Compile Include="TVShowObjects\Season.cs" />
     <Compile Include="Models\ShoutboxModels.cs" />
+    <Compile Include="TVShowObjects\Show.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -339,6 +344,7 @@
     <Content Include="Views\Account\Profile.cshtml" />
     <Content Include="Views\Account\Edit.cshtml" />
     <Content Include="Views\Account\RegisterStepTwo.cshtml" />
+    <Content Include="Views\Home\Testen.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
