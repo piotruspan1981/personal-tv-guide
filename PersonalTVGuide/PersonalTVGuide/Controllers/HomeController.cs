@@ -36,7 +36,7 @@ namespace PersonalTVGuide.Controllers
             // Haal eerst de resultaten op van de zoekactie
             var tvrip = new TvRageInformationProvider();
             var showList = new List<Show>();
-            showList = tvrip.GetShows("Lost");
+            showList = tvrip.GetShows(Convert.ToString(Request.Form["searchResult"]));
             
             ViewBag.ShowCount = "Aantal gevonden shows: " + showList.Count;
 
