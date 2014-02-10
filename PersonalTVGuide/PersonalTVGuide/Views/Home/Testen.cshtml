@@ -1,5 +1,5 @@
 ﻿@{
-    ViewBag.Title = "Testen van TVRage verbinding shit";
+    ViewBag.Title = "Testen van TVRage verbinding";
 }
 
 <hgroup class="title">
@@ -8,6 +8,13 @@
 
 <article>
     <p>
+         @using (Html.BeginForm("Testen", "Home", FormMethod.Post))
+        {
+            @Html.TextBox("searchResult")
+            
+            <input type="submit" value="submit" />
+        }
+        <br />
         @ViewBag.ShowCount <br /><br />
 
         @using (Html.BeginForm("ShowAllDetails", "Home", FormMethod.Post))
@@ -17,6 +24,8 @@
             <input type="submit" value="submit" />
         }
 
+        <br />
+       
         <br />
         @ViewBag.ShowResult
 
