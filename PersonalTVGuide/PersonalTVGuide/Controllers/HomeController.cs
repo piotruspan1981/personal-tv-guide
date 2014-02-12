@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using PersonalTVGuide.InformationProviders;
 using PersonalTVGuide.TVShowObjects;
+using PersonalTVGuide.Models;
 
 namespace PersonalTVGuide.Controllers
 {
@@ -73,7 +74,8 @@ namespace PersonalTVGuide.Controllers
             show = tvrip.GetFullDetails(Convert.ToInt32(Request.Form["ddlShows"]));
             var resultString = "";
 
-            resultString += getShow(show); 
+            resultString += getShow(show);
+            WriteToDatabase(show);
 
             ViewBag.ShowResult = resultString;
 
@@ -107,9 +109,33 @@ namespace PersonalTVGuide.Controllers
                 }
             }
 
-            // mss nog uitbreiden
+            // mss nog uitbreiden??
 
             return resultstring;
+        }
+
+        public void WriteToDatabase(Show show)
+        {
+            if (ModelState.IsValid)
+            {
+                // Insert a new serie into the database
+                using (SerieContext db = new SerieContext())
+                {
+                    Serie serieExists = db.Serie.FirstOrDefault(s => s.SerieName == show.Name);
+                    // Check if serie already exists
+                    if (serieExists == null)
+                    {
+                        // Insert name into the serie table
+                        db.Serie.Add(new Serie { SerieName = show.Name, SerieSeasonCount = show.Seasons.Count().ToString()});
+                        db.SaveChanges();
+                    }
+                    else
+                    {
+                        //TO DO!!
+                        //ViewBag.ShowErrorMsg = "Serie bestaat al in database!";
+                    }
+                }
+            }
         }
 
     }

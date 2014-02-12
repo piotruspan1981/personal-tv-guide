@@ -207,6 +207,7 @@
     <Compile Include="InformationProviders\IInformationProvider.cs" />
     <Compile Include="InformationProviders\TvRageInformationProvider.cs" />
     <Compile Include="Models\AccountModels.cs" />
+    <Compile Include="Models\SerieModels.cs" />
     <Compile Include="TVShowObjects\Episode.cs" />
     <Compile Include="TVShowObjects\Season.cs" />
     <Compile Include="Models\ShoutboxModels.cs" />
