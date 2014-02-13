@@ -26,6 +26,10 @@ namespace PersonalTVGuide.Models
             public int SerieId { get; set; }
             public string SerieName { get; set; }
             public string SerieSeasonCount { get; set; }
+            public int Runtime { get; set; }
+            public string IMG_url { get; set; }
+
+
         }
 
 }

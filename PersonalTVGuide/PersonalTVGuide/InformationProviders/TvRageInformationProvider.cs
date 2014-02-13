@@ -46,6 +46,7 @@ namespace PersonalTVGuide.InformationProviders
                     ImageUrl = Get<string>(seas.Element("image")),
                     AirTimeHour = GetTime(seas.Element("airtime"),'H'),
                     AirTimeMinute = GetTime(seas.Element("airtime"),'M'),
+                    Runtime = Get<int>(seas.Element("runtime")),
 
                     Seasons = (from season in seas.Element("Episodelist").Elements("Season")
                                select new Season
