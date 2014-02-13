@@ -26,6 +26,16 @@ namespace PersonalTVGuide.TVShowObjects
         private int airTimeHour;
         private int airTimeMinute;
         private int timezone;
+        private int runtime;
+
+        public int Runtime
+        {
+            get { return runtime; }
+            set
+            {
+                runtime = value;
+            }
+        }
 
         public int Timezone
         {

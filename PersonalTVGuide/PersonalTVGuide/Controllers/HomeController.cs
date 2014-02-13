@@ -7,6 +7,7 @@ using PersonalTVGuide.InformationProviders;
 using PersonalTVGuide.TVShowObjects;
 using PersonalTVGuide.Models;
 
+
 namespace PersonalTVGuide.Controllers
 {
     public class HomeController : Controller
@@ -120,14 +121,23 @@ namespace PersonalTVGuide.Controllers
             {
                 // Insert a new serie into the database
                 using (SerieContext db = new SerieContext())
+                using (EpisodeContext dbE = new EpisodeContext())
                 {
                     Serie serieExists = db.Serie.FirstOrDefault(s => s.SerieName == show.Name);
                     // Check if serie already exists
                     if (serieExists == null)
                     {
                         // Insert name into the serie table
-                        db.Serie.Add(new Serie { SerieName = show.Name, SerieSeasonCount = show.Seasons.Count().ToString()});
+                        db.Serie.Add(new Serie { SerieName = show.Name, SerieSeasonCount = show.Seasons.Count().ToString(), Runtime = show.Runtime,
+                            IMG_url = show.ImageUrl, 
+                        });
                         db.SaveChanges();
+                        
+                        foreach (var z in show.Seasons)
+                            foreach(var y in z.Episodes)
+                            dbE.Episode.Add(new Episodes{SerieId = y.SeasonNumber, EpisodeNR = y.EpisodeNumber, EpisodeName = y.Title
+                            });
+                        //dbE.Episode.Add(new Episodes { EpisodeId =                     
                     }
                     else
                     {
