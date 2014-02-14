@@ -15,11 +15,11 @@ namespace PersonalTVGuide.Models
         {
         }
 
-        public DbSet<Episodes> Episode { get; set; }
+        public DbSet<Episode> Episodes { get; set; }
     }
 
     [Table("Episodes")]
-    public class Episodes
+    public class Episode
     {
         [Key]
         [DatabaseGeneratedAttribute(DatabaseGeneratedOption.Identity)]
@@ -28,6 +28,7 @@ namespace PersonalTVGuide.Models
         public string EpisodeName { get; set; }
         //public string SerieSeasonCount { get; set; }
         public int EpisodeNR{ get; set; }
+        public DateTime Airdate { get; set; }
         //public string IMG_url { get; set; }
 
 

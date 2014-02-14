@@ -206,26 +206,14 @@
     </Compile>
     <Compile Include="InformationProviders\IInformationProvider.cs" />
     <Compile Include="InformationProviders\TvRageInformationProvider.cs" />
-    <Compile Include="Migrations\201402131302366_runtimeENurl.cs" />
-    <Compile Include="Migrations\201402131302366_runtimeENurl.Designer.cs">
-      <DependentUpon>201402131302366_runtimeENurl.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201402131532163_serie.cs" />
-    <Compile Include="Migrations\201402131532163_serie.Designer.cs">
-      <DependentUpon>201402131532163_serie.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201402131534298_episode.cs" />
-    <Compile Include="Migrations\201402131534298_episode.Designer.cs">
-      <DependentUpon>201402131534298_episode.cs</DependentUpon>
-    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountModels.cs" />
     <Compile Include="Models\EpisodeModels.cs" />
     <Compile Include="Models\SerieModels.cs" />
-    <Compile Include="TVShowObjects\Episode.cs" />
-    <Compile Include="TVShowObjects\Season.cs" />
+    <Compile Include="TVShowObjects\TVRageEpisode.cs" />
+    <Compile Include="TVShowObjects\TVRageSeason.cs" />
     <Compile Include="Models\ShoutboxModels.cs" />
-    <Compile Include="TVShowObjects\Show.cs" />
+    <Compile Include="TVShowObjects\TVRageShow.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -368,17 +356,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Migrations\201402131302366_runtimeENurl.resx">
-      <DependentUpon>201402131302366_runtimeENurl.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201402131532163_serie.resx">
-      <DependentUpon>201402131532163_serie.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201402131534298_episode.resx">
-      <DependentUpon>201402131534298_episode.cs</DependentUpon>
-    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

@@ -15,7 +15,7 @@ namespace PersonalTVGuide.Models
         {
         }
 
-        public DbSet<Serie> Serie { get; set; }
+        public DbSet<Serie> Series { get; set; }
     }
 
         [Table("Serie")]
@@ -23,13 +23,13 @@ namespace PersonalTVGuide.Models
         {
             [Key]
             [DatabaseGeneratedAttribute(DatabaseGeneratedOption.Identity)]
+            public int Id { get; set; }
             public int SerieId { get; set; }
             public string SerieName { get; set; }
             public string SerieSeasonCount { get; set; }
             public int Runtime { get; set; }
             public string IMG_url { get; set; }
-
-
+            public int Year { get; set; }
         }
 
 }

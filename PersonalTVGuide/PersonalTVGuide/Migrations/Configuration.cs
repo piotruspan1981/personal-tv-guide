@@ -9,7 +9,7 @@ namespace PersonalTVGuide.Migrations
     {
         public Configuration()
         {
-            AutomaticMigrationsEnabled = false;
+            AutomaticMigrationsEnabled = true;
         }
 
         protected override void Seed(PersonalTVGuide.Models.EpisodeContext context)

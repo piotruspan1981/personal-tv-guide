@@ -8,21 +8,21 @@ using System.Web.Security;
 
 namespace PersonalTVGuide.TVShowObjects
 {
-    public class Show
+    public class TVRageShow
     {
-        public List<Season> Seasons { get; set; }
+        public List<TVRageSeason> Seasons { get; set; }
 
         private string country;
-        private System.DateTime? ended;
+        private DateTime ended;
         //private ImageSource imageSource;
         private string link;
         private string name;
         private int showId;
-        private System.DateTime? started;
+        private DateTime started;
         private string status;
         private string imageUrl;
         private bool isLoading;
-        private Season selectedSeason;
+        private TVRageSeason selectedSeason;
         private int airTimeHour;
         private int airTimeMinute;
         private int timezone;
@@ -65,12 +65,12 @@ namespace PersonalTVGuide.TVShowObjects
         }
 
 
-        public Show()
+        public TVRageShow()
         {
-            Seasons = new List<Season>();
+            Seasons = new List<TVRageSeason>();
         }
 
-        public Season SelectedSeason
+        public TVRageSeason SelectedSeason
         {
             get { return selectedSeason; }
             set
@@ -97,7 +97,7 @@ namespace PersonalTVGuide.TVShowObjects
             }
         }
 
-        public System.DateTime? Started
+        public DateTime Started
         {
             get { return started; }
             set
@@ -106,7 +106,7 @@ namespace PersonalTVGuide.TVShowObjects
             }
         }
 
-        public System.DateTime? Ended
+        public DateTime Ended
         {
             get { return ended; }
             set
