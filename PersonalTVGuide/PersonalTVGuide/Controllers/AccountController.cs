@@ -45,6 +45,14 @@ namespace PersonalTVGuide.Controllers
         {
             if (ModelState.IsValid && WebSecurity.Login(model.UserName, model.Password, persistCookie: model.RememberMe))
             {
+                using (UsersContext db = new UsersContext())
+                {
+                    UserProfile userProfile = db.UserProfiles.SingleOrDefault(u => u.UserName == model.UserName);
+                    userProfile.LastOnline = DateTime.Now;
+                    db.Entry(userProfile).State = EntityState.Modified;
+                    db.SaveChanges();
+                }
+
                 return RedirectToLocal(returnUrl);
             }
 
