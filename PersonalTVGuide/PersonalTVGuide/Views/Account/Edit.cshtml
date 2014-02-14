@@ -22,6 +22,21 @@
                 @Html.TextBoxFor(m => m.Email)
                 @Html.ValidationMessageFor(m=> m.Email)
             </li>
+            <li>
+                @Html.LabelFor(m => m.FirstName)
+                @Html.TextBoxFor(m => m.FirstName)
+                @Html.ValidationMessageFor(m=> m.FirstName)
+            </li>
+            <li>
+                @Html.LabelFor(m => m.LastName)
+                @Html.TextBoxFor(m => m.LastName)
+                @Html.ValidationMessageFor(m=> m.LastName)
+            </li>
+            <li>
+                @Html.LabelFor(m => m.AvatarUrl)
+                @Html.TextBoxFor(m => m.AvatarUrl)
+                @Html.ValidationMessageFor(m=> m.AvatarUrl)
+            </li>
          </ol>
      </fieldset>
     <input type="submit" value="Save" />

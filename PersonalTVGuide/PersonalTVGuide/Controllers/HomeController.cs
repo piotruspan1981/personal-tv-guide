@@ -124,10 +124,10 @@ namespace PersonalTVGuide.Controllers
                 using (SerieContext db = new SerieContext())
                 using (EpisodeContext dbE = new EpisodeContext())
                 {
-                    //Serie serieExists = db.Series.FirstOrDefault(s => s.SerieId == show.ShowId);
-                    // Check if serie already exists
-                    //if (serieExists == null)
-                    //{
+                    Serie serieExists = db.Series.FirstOrDefault(s => s.SerieId == show.ShowId);
+                     //Check if serie already exists
+                    if (serieExists == null)
+                    {
                         // Insert name into the serie table
                         db.Series.Add(new Serie { 
                             SerieId = show.ShowId,
@@ -145,15 +145,16 @@ namespace PersonalTVGuide.Controllers
                                     SerieId = show.ShowId, 
                                     EpisodeNR = y.EpisodeNumber, 
                                     EpisodeName = y.Title,
-                                    Airdate = y.AirDate
+                                    Airdate = y.AirDate,
+                                    Season = y.SeasonNumber,
                                 });
                         dbE.SaveChanges();
-                    //}
-                    //else
-                    //{
-                    //    //TO DO!!
-                    //    //ViewBag.ShowErrorMsg = "Serie bestaat al in database!";
-                    //}
+                    }
+                    else
+                    {
+                        //TO DO!!
+                        //ViewBag.ShowErrorMsg = "Serie bestaat al in database!";
+                    }
                 }
             }
         }

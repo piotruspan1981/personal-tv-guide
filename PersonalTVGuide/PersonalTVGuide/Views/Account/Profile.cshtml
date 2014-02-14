@@ -28,6 +28,36 @@
     <div class="display-field">
         @Html.DisplayFor(model => model.Email)
     </div>
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.FirstName)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.FirstName)
+    </div>
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.LastName)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.LastName)
+    </div>
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.NotificationFreq)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.NotificationFreq)
+    </div>
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.AvatarUrl)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.AvatarUrl)
+    </div>
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.LastOnline)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.LastOnline)
+    </div>
 
     @Html.ActionLink("change password", "Manage", "Account", routeValues: null, htmlAttributes: new { @class = "username", title = "Manage" })
     @Html.ActionLink("Edit", "Edit", new { id=Model.UserId }) 
