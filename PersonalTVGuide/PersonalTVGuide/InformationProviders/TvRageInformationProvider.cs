@@ -13,13 +13,13 @@ namespace PersonalTVGuide.InformationProviders
     {
         private const string BASE_URL = "http://services.tvrage.com/feeds/";
 
-        public List<Show> GetShows(string search)
+        public List<TVRageShow> GetShows(string search)
         {
             string url = string.Format("{0}search.php?show={1}", BASE_URL, HttpUtility.HtmlEncode(search));
             XDocument doc = XDocument.Load(url);
 
             var shows = (from s in doc.Root.Elements("show")
-                         select new Show
+                         select new TVRageShow
                              {
                                  ShowId = Convert.ToInt32(s.Element("showid").Value),
                                  Name = s.Element("name").Value
@@ -28,14 +28,14 @@ namespace PersonalTVGuide.InformationProviders
             return shows;
         }
 
-        public Show GetFullDetails(int showId)
+        public TVRageShow GetFullDetails(int showId)
         {
             string url = string.Format("{0}full_show_info.php?sid={1}", BASE_URL, showId);
             XDocument doc = XDocument.Load(url);
 
             var seas = doc.Root;
 
-            Show show = new Show
+            TVRageShow show = new TVRageShow
                 {
                     ShowId = Get<int>(seas.Element("showid")),
                     Name = Get<string>(seas.Element("name")),
@@ -49,11 +49,11 @@ namespace PersonalTVGuide.InformationProviders
                     Runtime = Get<int>(seas.Element("runtime")),
 
                     Seasons = (from season in seas.Element("Episodelist").Elements("Season")
-                               select new Season
+                               select new TVRageSeason
                                    {
                                        SeasonNumber = Convert.ToInt32(season.Attribute("no").Value),
                                        Episodes = (from e in season.Elements("episode")
-                                                   select new Episode
+                                                   select new TVRageEpisode
                                                        {
                                                            EpisodeNumber = Get<int>(e.Element("epnum")),
                                                            AirDate = GetDate(e.Element("airdate")),
@@ -86,9 +86,9 @@ namespace PersonalTVGuide.InformationProviders
             return (T) Convert.ChangeType(e.Value, typeof (T));
         }
 
-        private static DateTime? GetDate(XElement e)
+        private static DateTime GetDate(XElement e)
         {
-            if (e == null) return null;
+            if (e == null) return DateTime.MinValue;
 
             DateTime d;
 
@@ -96,7 +96,7 @@ namespace PersonalTVGuide.InformationProviders
             if (DateTime.TryParseExact(e.Value, "MMM/dd/yyyy", CultureInfo.CurrentCulture, DateTimeStyles.None, out d)) return d;
             if (DateTime.TryParseExact(e.Value, "yyyy-MM-dd", CultureInfo.CurrentCulture, DateTimeStyles.None, out d)) return d;
 
-            return null;
+            return DateTime.MinValue;
         }
 
         public static int GetTime(XElement time, char type)

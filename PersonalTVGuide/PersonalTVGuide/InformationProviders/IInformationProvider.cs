@@ -5,7 +5,7 @@ namespace PersonalTVGuide.InformationProviders
 {
     public interface IInformationProvider
     {
-        List<Show> GetShows(string search);
-        Show GetFullDetails(int showId);
+        List<TVRageShow> GetShows(string search);
+        TVRageShow GetFullDetails(int showId);
     }
 }

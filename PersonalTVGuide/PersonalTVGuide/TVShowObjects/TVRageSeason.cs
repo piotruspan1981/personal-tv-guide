@@ -8,14 +8,14 @@ using System.Web.Security;
 
 namespace PersonalTVGuide.TVShowObjects
 {
-    public class Season
+    public class TVRageSeason
     {
-        public List<Episode> Episodes { get; set; }
+        public List<TVRageEpisode> Episodes { get; set; }
         private int seasonNumber;
 
-        private Episode selectedEpisode;
+        private TVRageEpisode selectedEpisode;
          
-        public Episode SelectedEpisode
+        public TVRageEpisode SelectedEpisode
         {
             get { return selectedEpisode; }
             set
@@ -33,9 +33,9 @@ namespace PersonalTVGuide.TVShowObjects
             }
         }
         
-        public Season()
+        public TVRageSeason()
         {
-            Episodes = new List<Episode>();
+            Episodes = new List<TVRageEpisode>();
         }
 
     }

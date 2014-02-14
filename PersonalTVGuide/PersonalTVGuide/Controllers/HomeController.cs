@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Data.Entity;
 using PersonalTVGuide.InformationProviders;
 using PersonalTVGuide.TVShowObjects;
 using PersonalTVGuide.Models;
@@ -37,7 +38,7 @@ namespace PersonalTVGuide.Controllers
         {
             // Haal eerst de resultaten op van de zoekactie
             var tvrip = new TvRageInformationProvider();
-            var showList = new List<Show>();
+            var showList = new List<TVRageShow>();
             try
             {
                 showList = tvrip.GetShows(Convert.ToString(Request.Form["searchResult"]));
@@ -70,7 +71,7 @@ namespace PersonalTVGuide.Controllers
         {
             // Haal de details op
             var tvrip = new TvRageInformationProvider();
-            var show = new Show();
+            var show = new TVRageShow();
 
             show = tvrip.GetFullDetails(Convert.ToInt32(Request.Form["ddlShows"]));
             var resultString = "";
@@ -83,7 +84,7 @@ namespace PersonalTVGuide.Controllers
             return View();
         }
 
-        public string getShow(Show s)
+        public string getShow(TVRageShow s)
         {
             var resultstring = "";
 
@@ -115,7 +116,7 @@ namespace PersonalTVGuide.Controllers
             return resultstring;
         }
 
-        public void WriteToDatabase(Show show)
+        public void WriteToDatabase(TVRageShow show)
         {
             if (ModelState.IsValid)
             {
@@ -123,27 +124,36 @@ namespace PersonalTVGuide.Controllers
                 using (SerieContext db = new SerieContext())
                 using (EpisodeContext dbE = new EpisodeContext())
                 {
-                    Serie serieExists = db.Serie.FirstOrDefault(s => s.SerieName == show.Name);
+                    //Serie serieExists = db.Series.FirstOrDefault(s => s.SerieId == show.ShowId);
                     // Check if serie already exists
-                    if (serieExists == null)
-                    {
+                    //if (serieExists == null)
+                    //{
                         // Insert name into the serie table
-                        db.Serie.Add(new Serie { SerieName = show.Name, SerieSeasonCount = show.Seasons.Count().ToString(), Runtime = show.Runtime,
-                            IMG_url = show.ImageUrl, 
+                        db.Series.Add(new Serie { 
+                            SerieId = show.ShowId,
+                            SerieName = show.Name, 
+                            SerieSeasonCount = show.Seasons.Count().ToString(), 
+                            Runtime = show.Runtime,
+                            IMG_url = show.ImageUrl,
+                            Year = Convert.ToInt32(show.Started.Year)
                         });
                         db.SaveChanges();
                         
                         foreach (var z in show.Seasons)
                             foreach(var y in z.Episodes)
-                            dbE.Episode.Add(new Episodes{SerieId = y.SeasonNumber, EpisodeNR = y.EpisodeNumber, EpisodeName = y.Title
-                            });
-                        //dbE.Episode.Add(new Episodes { EpisodeId =                     
-                    }
-                    else
-                    {
-                        //TO DO!!
-                        //ViewBag.ShowErrorMsg = "Serie bestaat al in database!";
-                    }
+                                dbE.Episodes.Add(new Episode{
+                                    SerieId = show.ShowId, 
+                                    EpisodeNR = y.EpisodeNumber, 
+                                    EpisodeName = y.Title,
+                                    Airdate = y.AirDate
+                                });
+                        dbE.SaveChanges();
+                    //}
+                    //else
+                    //{
+                    //    //TO DO!!
+                    //    //ViewBag.ShowErrorMsg = "Serie bestaat al in database!";
+                    //}
                 }
             }
         }
