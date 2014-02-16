@@ -1,0 +1,29 @@
+﻿@{
+    ViewBag.Title = "Dashboard";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Dashboard</h2>
+<p>
+    Voeg nieuwe serie toe aan je favorieten:<br />
+
+    @using (Html.BeginForm("SearchShow", "Dashboard", FormMethod.Post))
+    {
+        @Html.TextBox("searchResult")
+            
+        <input type="submit" value="Zoek" />
+    }
+    @if (Convert.ToInt32(ViewBag.ShowCount) > 0)
+    { 
+        <br />
+        using (Html.BeginForm("GetShowDetails", "Dashboard", FormMethod.Post))
+        {
+            @Html.DropDownList("ddlShows")
+
+            <input type="submit" value="Opslaan" />
+            
+            @ViewBag.ShowCount;
+        }
+    }
+    @ViewBag.ShowErrorMsg
+</p>
