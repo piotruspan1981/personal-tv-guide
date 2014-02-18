@@ -141,7 +141,8 @@ namespace PersonalTVGuide.Controllers
                             SerieSeasonCount = show.Seasons.Count().ToString(),
                             Runtime = show.Runtime,
                             IMG_url = show.ImageUrl,
-                            Year = Convert.ToInt32(show.Started.Year)
+                            Year = Convert.ToInt32(show.Started.Year),
+                            status = show.Status
                         });
 
                         // koppel serie ID aan user ID
