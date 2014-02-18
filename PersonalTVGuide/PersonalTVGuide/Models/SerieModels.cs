@@ -26,14 +26,19 @@ namespace PersonalTVGuide.Models
         [DatabaseGeneratedAttribute(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
         public int SerieId { get; set; }
+        [StringLength(200), Required]
         public string SerieName { get; set; }
+        [StringLength(20), Required]
         public string SerieSeasonCount { get; set; }
         public int Runtime { get; set; }
+        [StringLength(500)]
         public string IMG_url { get; set; }
         public int Year { get; set; }
+        [StringLength(20), Required]
+        public string status { get; set; }
     }
 
-    [Table("UserHasSerie")]
+   [Table("UserHasSerie")]
     public class UserHasSerie
     {
         [Key]

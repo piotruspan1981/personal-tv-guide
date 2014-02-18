@@ -199,6 +199,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\ChatController.cs" />
     <Compile Include="Controllers\Dashboard\DashboardController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Filters\InitializeSimpleMembershipAttribute.cs" />
@@ -207,13 +208,17 @@
     </Compile>
     <Compile Include="InformationProviders\IInformationProvider.cs" />
     <Compile Include="InformationProviders\TvRageInformationProvider.cs" />
+    <Compile Include="Migrations\201402181038258_serie.cs" />
+    <Compile Include="Migrations\201402181038258_serie.Designer.cs">
+      <DependentUpon>201402181038258_serie.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountModels.cs" />
+    <Compile Include="Models\ChatModels.cs" />
     <Compile Include="Models\EpisodeModels.cs" />
     <Compile Include="Models\SerieModels.cs" />
     <Compile Include="TVShowObjects\TVRageEpisode.cs" />
     <Compile Include="TVShowObjects\TVRageSeason.cs" />
-    <Compile Include="Models\ShoutboxModels.cs" />
     <Compile Include="TVShowObjects\TVRageShow.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -348,14 +353,22 @@
     <Content Include="Views\Account\Profile.cshtml" />
     <Content Include="Views\Account\Edit.cshtml" />
     <Content Include="Views\Account\RegisterStepTwo.cshtml" />
-    <Content Include="Views\Home\Error.cshtml" />
+    <Content Include="Views\Dashboard\Error.cshtml" />
     <Content Include="Views\Dashboard\Index.cshtml" />
+    <Content Include="Views\Dashboard\Serie.cshtml" />
+    <Content Include="Views\Dashboard\GetShowDetails.cshtml" />
+    <Content Include="Views\Chat\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201402181038258_serie.resx">
+      <DependentUpon>201402181038258_serie.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

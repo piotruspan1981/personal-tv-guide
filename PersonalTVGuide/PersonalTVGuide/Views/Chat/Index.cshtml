@@ -1,0 +1,9 @@
+﻿@model PersonalTVGuide.Models.Shoutbox
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+@Html.HiddenFor(m => m.UID)
+@Html.TextAreaFor(m => m.Text)
+
