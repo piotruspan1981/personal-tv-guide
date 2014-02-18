@@ -6,9 +6,13 @@ using System.Web.Mvc;
 using PersonalTVGuide.Models;
 using PersonalTVGuide.InformationProviders;
 using PersonalTVGuide.TVShowObjects;
+using WebMatrix.WebData;
+using PersonalTVGuide.Filters;
+using System.Data.Entity;
 
 namespace PersonalTVGuide.Controllers
 {
+    [InitializeSimpleMembership]
     public class DashboardController : Controller
     {
         //
@@ -139,6 +143,15 @@ namespace PersonalTVGuide.Controllers
                             IMG_url = show.ImageUrl,
                             Year = Convert.ToInt32(show.Started.Year)
                         });
+
+                        // koppel serie ID aan user ID
+                        db.UserHadSeries.Add(new UserHasSerie
+                        {
+                            UserId = WebSecurity.CurrentUserId,
+                            SerieId = show.ShowId
+                        });   
+
+                        // save serie + koppeling met user
                         db.SaveChanges();
 
                         foreach (var z in show.Seasons)
