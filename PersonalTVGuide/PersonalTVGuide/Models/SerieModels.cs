@@ -16,20 +16,31 @@ namespace PersonalTVGuide.Models
         }
 
         public DbSet<Serie> Series { get; set; }
+        public DbSet<UserHasSerie> UserHadSeries { get; set; }
     }
 
-        [Table("Serie")]
-        public class Serie
-        {
-            [Key]
-            [DatabaseGeneratedAttribute(DatabaseGeneratedOption.Identity)]
-            public int Id { get; set; }
-            public int SerieId { get; set; }
-            public string SerieName { get; set; }
-            public string SerieSeasonCount { get; set; }
-            public int Runtime { get; set; }
-            public string IMG_url { get; set; }
-            public int Year { get; set; }
-        }
+    [Table("Serie")]
+    public class Serie
+    {
+        [Key]
+        [DatabaseGeneratedAttribute(DatabaseGeneratedOption.Identity)]
+        public int Id { get; set; }
+        public int SerieId { get; set; }
+        public string SerieName { get; set; }
+        public string SerieSeasonCount { get; set; }
+        public int Runtime { get; set; }
+        public string IMG_url { get; set; }
+        public int Year { get; set; }
+    }
+
+    [Table("UserHasSerie")]
+    public class UserHasSerie
+    {
+        [Key]
+        [DatabaseGeneratedAttribute(DatabaseGeneratedOption.Identity)]
+        public int Id { get; set; }
+        public int UserId { get; set; }
+        public int SerieId { get; set; }
+    }
 
 }
