@@ -17,7 +17,7 @@ namespace PersonalTVGuide.Controllers
     {
         //
         // GET: /Dashboard/
-
+        private SerieContext db = new SerieContext();
         [Authorize]
         public ActionResult Index()
         {
@@ -76,9 +76,13 @@ namespace PersonalTVGuide.Controllers
                 //ViewBag.ShowResult = resultString;
 
                 WriteToDatabase(show);
-
+                Favorite(show);
+                
                 ViewBag.ShowErrorMsg = "Opslaan in database is gelukt!";
-                return View("Index");
+                int serieid = Convert.ToInt32(Request.Form["ddlShows"]);
+                Serie serie = db.Series.First(t => t.SerieId == serieid);
+                ViewBag.serie = serie;
+                return View("index");
             }
             catch (InvalidOperationException err)
             {
@@ -119,7 +123,26 @@ namespace PersonalTVGuide.Controllers
 
             return resultstring;
         }
+        [HttpPost]
+        public ActionResult Favorite(TVRageShow show)
+        {
+            
+            
+                using (SerieContext db = new SerieContext())
+                {
+                    Serie serieExists = db.Series.FirstOrDefault(s => s.SerieId == show.ShowId);
+                    db.UserHadSeries.Add(new UserHasSerie
+                    {
+                        UserId = WebSecurity.CurrentUserId,
+                       SerieId = show.ShowId
 
+                    });
+                    //return View("Index");
+                }
+                
+            
+            return View("Index");
+        }
         // Schrijf show + afleveringen weg naar database
         public void WriteToDatabase(TVRageShow show)
         {
@@ -146,11 +169,11 @@ namespace PersonalTVGuide.Controllers
                         });
 
                         // koppel serie ID aan user ID
-                        db.UserHadSeries.Add(new UserHasSerie
-                        {
-                            UserId = WebSecurity.CurrentUserId,
-                            SerieId = show.ShowId
-                        });   
+                        //db.UserHadSeries.Add(new UserHasSerie
+                        //{
+                        //    UserId = WebSecurity.CurrentUserId,
+                        //    SerieId = show.ShowId
+                        //});   
 
                         // save serie + koppeling met user
                         db.SaveChanges();
@@ -170,7 +193,7 @@ namespace PersonalTVGuide.Controllers
                     else
                     {
                         //TO DO!!
-                        //ViewBag.ShowErrorMsg = "Serie bestaat al in database!";
+                        ViewBag.ShowErrorMsg = "Serie bestaat al in database!";
                     }
                 }
             }
