@@ -26,4 +26,25 @@
         }
     }
     @ViewBag.ShowErrorMsg
+    @if (ViewBag.serie != null)
+    {
+        using (Html.BeginForm("Favorite", "Dashboard", FormMethod.Post))
+        {
+        <p>Serienaam</p>
+        @ViewBag.serie.SerieName <br />
+        <p>Aantal Seizoenen</p> <br />
+        @ViewBag.serie.SerieSeasonCount <br />
+        <p>Duur van aflevering</p> 
+        @ViewBag.serie.Runtime <br />
+        <p>Start Jaar</p> <br />
+        @ViewBag.serie.SerieName <br />
+        <p>Status</p>
+        @ViewBag.serie.status <br />
+        
+        
+        <input type="submit" value="Favoriet" />
+        }
+
+    }
+    
 </p>
