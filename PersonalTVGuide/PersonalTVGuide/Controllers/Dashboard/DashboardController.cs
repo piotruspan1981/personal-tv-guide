@@ -57,7 +57,7 @@ namespace PersonalTVGuide.Controllers
         }
 
         [HttpPost]
-        public ActionResult GetShowDetails()
+        public ActionResult GetShowDetailsForDB()
         {
             try
             {
@@ -76,12 +76,16 @@ namespace PersonalTVGuide.Controllers
                 //ViewBag.ShowResult = resultString;
 
                 WriteToDatabase(show);
-                Favorite(show);
+                //Favorite(show);
+
+                /* OPHALEN UIT DATABASE TEST */
+                //int serieid = Convert.ToInt32(Request.Form["ddlShows"]);
+                //Serie serie = db.Series.First(t => t.SerieId == serieid);
+                //ViewBag.serie = serie;
                 
                 ViewBag.ShowErrorMsg = "Opslaan in database is gelukt!";
-                int serieid = Convert.ToInt32(Request.Form["ddlShows"]);
-                Serie serie = db.Series.First(t => t.SerieId == serieid);
-                ViewBag.serie = serie;
+                ViewBag.serie = show;
+
                 return View("index");
             }
             catch (InvalidOperationException err)
@@ -123,26 +127,33 @@ namespace PersonalTVGuide.Controllers
 
             return resultstring;
         }
+
         [HttpPost]
-        public ActionResult Favorite(TVRageShow show)
+        public ActionResult Favorite()
         {
-            
-            
-                using (SerieContext db = new SerieContext())
+            var showId = Convert.ToInt32(Request.Form["hiddenShowId"]);
+            using (SerieContext db = new SerieContext())
+            {
+                var uhsExists = db.UserHadSeries.FirstOrDefault(s => s.SerieId == showId && s.UserId == WebSecurity.CurrentUserId);
+                if (uhsExists == null)
                 {
-                    Serie serieExists = db.Series.FirstOrDefault(s => s.SerieId == show.ShowId);
                     db.UserHadSeries.Add(new UserHasSerie
                     {
                         UserId = WebSecurity.CurrentUserId,
-                       SerieId = show.ShowId
-
+                        SerieId = showId
                     });
-                    //return View("Index");
+                    db.SaveChanges();
+
+                    ViewBag.ShowErrorMsg = "Serie is als favoriet toegevoegd!";
                 }
-                
-            
+                else
+                {
+                    ViewBag.ShowErrorMsg = "U heeft deze serie al als favoriet!";
+                }
+            }
             return View("Index");
         }
+
         // Schrijf show + afleveringen weg naar database
         public void WriteToDatabase(TVRageShow show)
         {
@@ -168,14 +179,7 @@ namespace PersonalTVGuide.Controllers
                             status = show.Status
                         });
 
-                        // koppel serie ID aan user ID
-                        //db.UserHadSeries.Add(new UserHasSerie
-                        //{
-                        //    UserId = WebSecurity.CurrentUserId,
-                        //    SerieId = show.ShowId
-                        //});   
-
-                        // save serie + koppeling met user
+                        // save serie
                         db.SaveChanges();
 
                         foreach (var z in show.Seasons)

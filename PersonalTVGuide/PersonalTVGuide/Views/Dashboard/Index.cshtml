@@ -4,7 +4,7 @@
 }
 
 <h2>Dashboard</h2>
-<p>
+<div>
     Voeg nieuwe serie toe aan je favorieten:<br />
 
     @using (Html.BeginForm("SearchShow", "Dashboard", FormMethod.Post))
@@ -16,7 +16,7 @@
     @if (Convert.ToInt32(ViewBag.ShowCount) > 0)
     { 
         <br />
-        using (Html.BeginForm("GetShowDetails", "Dashboard", FormMethod.Post))
+        using (Html.BeginForm("GetShowDetailsForDB", "Dashboard", FormMethod.Post))
         {
             @Html.DropDownList("ddlShows")
 
@@ -26,25 +26,29 @@
         }
     }
     @ViewBag.ShowErrorMsg
-    @if (ViewBag.serie != null)
-    {
-        using (Html.BeginForm("Favorite", "Dashboard", FormMethod.Post))
+    <br /><br />
+    <div style="width: 500px;">
+        @if (ViewBag.serie != null)
         {
-        <p>Serienaam</p>
-        @ViewBag.serie.SerieName <br />
-        <p>Aantal Seizoenen</p> <br />
-        @ViewBag.serie.SerieSeasonCount <br />
-        <p>Duur van aflevering</p> 
-        @ViewBag.serie.Runtime <br />
-        <p>Start Jaar</p> <br />
-        @ViewBag.serie.SerieName <br />
-        <p>Status</p>
-        @ViewBag.serie.status <br />
-        
-        
-        <input type="submit" value="Favoriet" />
+            using (Html.BeginForm("Favorite", "Dashboard", FormMethod.Post))
+            {
+            <div style="float:left">    
+                <b>Serienaam:</b> @ViewBag.serie.Name <br />
+                <b>Aantal Seizoenen:</b> @ViewBag.serie.Seasons.Count <br />
+                <b>Duur van aflevering:</b> @ViewBag.serie.Runtime <br />
+                <b>Start Jaar:</b> @ViewBag.serie.Started <br />
+                <b>Status:</b> @ViewBag.serie.Status <br />
+            </div>
+            <div style="float:right">
+                <img src="@Url.Content(ViewBag.serie.ImageUrl)" alt="@ViewBag.serie.Name" style="height: 110px" />
+            </div>
+            <div style="clear: both" />
+            <div style="float: right">
+                <input type="hidden" name="hiddenShowId" id="hiddenShowId" value="@ViewBag.serie.ShowId" />
+                <input type="submit" value="Maak Favoriet" />
+            </div>
+            }
         }
-
-    }
+    </div>
+</div>
     
-</p>
