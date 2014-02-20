@@ -18,6 +18,7 @@ namespace PersonalTVGuide.Controllers
         //
         // GET: /Dashboard/
         private SerieContext db = new SerieContext();
+        private EpisodeContext dbE = new EpisodeContext();
         [Authorize]
         public ActionResult Index()
         {
@@ -94,6 +95,16 @@ namespace PersonalTVGuide.Controllers
                 return View("Index");
             }
         }
+
+        public ActionResult GetShowDetails(int id = 0)
+        {
+            int serieid = id;
+            Serie serie = db.Series.First(t => t.SerieId == serieid);
+            Episode episode = dbE.Episodes.First(t => t.SerieId == serieid);
+
+            return View(serie);
+        }
+
 
         // Functie wordt niet gebruik, kan als debug functioneren
         public string ShowDetailsToString(TVRageShow s)
