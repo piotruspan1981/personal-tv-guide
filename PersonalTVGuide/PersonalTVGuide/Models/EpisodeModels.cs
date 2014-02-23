@@ -32,8 +32,6 @@ namespace PersonalTVGuide.Models
         public int EpisodeNR{ get; set; }
         public DateTime Airdate { get; set; }
         //public string IMG_url { get; set; }
-
-
     }
 
     
