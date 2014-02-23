@@ -5,8 +5,14 @@
         <title>@ViewBag.Title - Personal TV Guide</title>
         <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
         <meta name="viewport" content="width=device-width" />
+        @Scripts.Render("~/bundles/jquery")
+
         @Styles.Render("~/Content/css")
+        @Styles.Render("~/Content/jquery.dataTables.css")
         @Scripts.Render("~/bundles/modernizr")
+        @Scripts.Render("~/Scripts/jquery.dataTables.min.js")
+
+        @RenderSection("scripts", required: false)
     </head>
     <body>
         <header>
@@ -58,8 +64,5 @@
                 </div>
             </div>
         </footer>
-
-        @Scripts.Render("~/bundles/jquery")
-        @RenderSection("scripts", required: false)
     </body>
 </html>
