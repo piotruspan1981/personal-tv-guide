@@ -98,11 +98,15 @@ namespace PersonalTVGuide.Controllers
 
         public ActionResult GetShowDetails(int id = 0)
         {
-            int serieid = id;
-            Serie serie = db.Series.First(t => t.SerieId == serieid);
-            Episode episode = dbE.Episodes.First(t => t.SerieId == serieid);
+            //int serieid = id;
+            //Serie serie = db.Series.First(t => t.SerieId == serieid);
+            //Episode episode = dbE.Episodes.First(t => t.SerieId == serieid);
 
-            return View(serie);
+            var sie = new SerieInfoAndEpisodes();
+            sie.Serie = db.Series.First(t => t.SerieId == id);
+            sie.Episodes = dbE.Episodes.Where(e => e.SerieId == id).ToList<Episode>();
+
+            return View(sie);
         }
 
 

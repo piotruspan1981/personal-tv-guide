@@ -1,34 +1,81 @@
-﻿@model PersonalTVGuide.Models.Serie
+﻿@model PersonalTVGuide.Models.SerieInfoAndEpisodes
 @{
-    ViewBag.Title = "Serie";
+    ViewBag.Title = "Serie details";
 }
 
-<h2>Serie</h2>
-    <div class="display-label">
-         @Html.DisplayNameFor(s => s.SerieName)
+<script type="text/javascript">
+    function setupDataTable() {
+        $('#productsTable').dataTable({
+            "aaSorting": [[0, "asc"]],
+            "bAutoWidth": false,
+            "iDisplayLength": 20,
+            "aoColumns": [
+            /* Seizoen */   null,
+            /* Nummer */    null,
+            /* Naam */      null,
+            /* Datum */     null]
+        });
+    }
+
+    function pageLoad(sender, args) {
+        if (args.get_isPartialLoad()) {
+            setupDataTable();
+        }
+    }
+
+    $(document).ready(function () {
+        setupDataTable();
+    });
+</script>
+
+<div style="width: 800px;">
+    <div style="float:left"> 
+        <h2>Serie</h2> <br />   
+        <b>Serienaam:</b> @Model.Serie.SerieName <br />
+        <b>Aantal Seizoenen:</b> @Model.Serie.SerieSeasonCount <br />
+        <b>Duur van aflevering:</b> @Model.Serie.Runtime minuten<br />
+        <b>Start Jaar:</b> @Model.Serie.Year <br />
+        <b>Status:</b> @Model.Serie.status <br />
     </div>
-    <div class="display-field">
-        @Html.DisplayFor(s => s.SerieName)
+    <div style="float:right">
+        <img src="@Url.Content(Model.Serie.IMG_url)" alt="@Model.Serie.SerieName" style="height: 300px" />
     </div>
-    <div class="display-label">
-         @Html.DisplayNameFor(s => s.Year)
+    <div style="clear: both" />
+</div>
+<br />
+<hr />
+<h2>Afleveringen</h2>
+<br />
+@if (Model.Episodes.Count != 0)
+{
+    <div style="width: 800px;">
+	    <table id="productsTable">
+		    <thead>
+			    <tr>
+			        <th style="width: 15px;">Seizoen</th>
+			        <th style="width: 30px;">Nummer</th>
+			        <th>Naam</th>
+			        <th style="width: 125px;">Uitzenddatum</th>
+			    </tr>
+		    </thead>
+		    <tbody>
+                @foreach (var ep in Model.Episodes)
+                {
+                    <tr>
+                        <td>@ep.Season</td>
+                        <td>@ep.EpisodeNR</td>
+                        <td>@ep.EpisodeName</td>
+                        <td>@ep.Airdate</td>
+                    </tr>
+                }
+		    </tbody>
+	    </table>
+    </div>  
+}
+else
+{
+    <div>
+        Er zijn geen afleveringen beschikbaar voor @Model.Serie.SerieName!
     </div>
-    <div class="display-field">
-        @Html.DisplayFor(s => s.Year)
-    </div><div class="display-label">
-         @Html.DisplayNameFor(s => s.SerieSeasonCount)
-    </div>
-    <div class="display-field">
-        @Html.DisplayFor(s => s.SerieSeasonCount)
-    </div><div class="display-label">
-         @Html.DisplayNameFor(s => s.Runtime)
-    </div>
-    <div class="display-field">
-        @Html.DisplayFor(s => s.Runtime)
-    </div><div class="display-label">
-         @Html.DisplayNameFor(s => s.status)
-    </div>
-    <div class="display-field">
-        @Html.DisplayFor(s => s.status)
-        
+}      
     

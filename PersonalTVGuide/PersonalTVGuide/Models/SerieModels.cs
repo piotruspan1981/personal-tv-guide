@@ -48,4 +48,10 @@ namespace PersonalTVGuide.Models
         public int SerieId { get; set; }
     }
 
+   public class SerieInfoAndEpisodes
+   {
+       public Serie Serie { get; set; }
+       public List<Episode> Episodes { get; set; }
+   }
+
 }

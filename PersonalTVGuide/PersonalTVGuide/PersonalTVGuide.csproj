@@ -223,6 +223,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\jquery.dataTables.css" />
     <Content Include="Content\themes\base\images\animated-overlay.gif" />
     <Content Include="Content\themes\base\images\ui-bg_flat_0_aaaaaa_40x100.png" />
     <Content Include="Content\themes\base\images\ui-bg_flat_75_ffffff_40x100.png" />
@@ -287,7 +288,20 @@
     <Content Include="Content\themes\base\minified\jquery.ui.tooltip.min.css" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
+    <Content Include="Images\DataTables\Sorting icons.psd" />
     <None Include="Scripts\jquery-2.0.3.intellisense.js" />
+    <Content Include="Images\DataTables\back_disabled.png" />
+    <Content Include="Images\DataTables\back_enabled.png" />
+    <Content Include="Images\DataTables\back_enabled_hover.png" />
+    <Content Include="Images\DataTables\favicon.ico" />
+    <Content Include="Images\DataTables\forward_disabled.png" />
+    <Content Include="Images\DataTables\forward_enabled.png" />
+    <Content Include="Images\DataTables\forward_enabled_hover.png" />
+    <Content Include="Images\DataTables\sort_asc.png" />
+    <Content Include="Images\DataTables\sort_asc_disabled.png" />
+    <Content Include="Images\DataTables\sort_both.png" />
+    <Content Include="Images\DataTables\sort_desc.png" />
+    <Content Include="Images\DataTables\sort_desc_disabled.png" />
     <Content Include="Images\ptvgLiekele.net.png" />
     <Content Include="Scripts\jquery-2.0.3.js" />
     <Content Include="Scripts\jquery-2.0.3.min.js" />
@@ -295,6 +309,7 @@
     <Content Include="Scripts\jquery-ui-1.10.3.js" />
     <Content Include="Scripts\jquery-ui-1.10.3.min.js" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
+    <Content Include="Scripts\jquery.dataTables.min.js" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.js" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.min.js" />
     <Content Include="Scripts\jquery.validate.js" />
