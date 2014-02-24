@@ -212,6 +212,10 @@
     <Compile Include="Migrations\201402181038258_serie.Designer.cs">
       <DependentUpon>201402181038258_serie.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201402241103113_airdatenull.cs" />
+    <Compile Include="Migrations\201402241103113_airdatenull.Designer.cs">
+      <DependentUpon>201402241103113_airdatenull.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountModels.cs" />
     <Compile Include="Models\ChatModels.cs" />
@@ -383,6 +387,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201402181038258_serie.resx">
       <DependentUpon>201402181038258_serie.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201402241103113_airdatenull.resx">
+      <DependentUpon>201402241103113_airdatenull.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

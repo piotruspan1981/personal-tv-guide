@@ -13,7 +13,7 @@ namespace PersonalTVGuide.TVShowObjects
         public List<TVRageSeason> Seasons { get; set; }
 
         private string country;
-        private DateTime ended;
+        private DateTime? ended;
         //private ImageSource imageSource;
         private string link;
         private string name;
@@ -103,15 +103,17 @@ namespace PersonalTVGuide.TVShowObjects
             set
             {
                 started = value;
+                
             }
         }
 
-        public DateTime Ended
+        public DateTime? Ended
         {
             get { return ended; }
             set
             {
                 ended = value;
+                
             }
         }
 

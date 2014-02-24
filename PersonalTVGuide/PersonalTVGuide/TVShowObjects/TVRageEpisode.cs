@@ -10,7 +10,7 @@ namespace PersonalTVGuide.TVShowObjects
 {
     public class TVRageEpisode
     {
-        private DateTime airDate;
+        private DateTime? airDate;
         private int episodeNumber;
         private int episodeNumberThisSeason;
         private bool hasBeenViewed;
@@ -95,7 +95,7 @@ namespace PersonalTVGuide.TVShowObjects
             }
         }
 
-        public DateTime AirDate
+        public DateTime? AirDate
         {
             get { return airDate; }
             set
