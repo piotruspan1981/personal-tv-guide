@@ -26,10 +26,28 @@ namespace PersonalTVGuide.Controllers
 
             DateTime today = DateTime.Now.Date;
             DateTime tomorrow = DateTime.Now.Date.AddDays(1);
-            var OverviewToday = new SerieInfoAndEpisodes();
-            OverviewToday.Episodes = dbE.Episodes.Where(e => e.Airdate == today || e.Airdate == tomorrow).ToList<Episode>();
-           
-            return View(OverviewToday);
+
+            var overview = new ListSerieInfoAndEpisode();
+            var list = new List<ObjSerieInfoAndEpisode>();
+            var se = new ObjSerieInfoAndEpisode();
+
+            var allEpisodes = dbE.Episodes.Where(e => e.Airdate == today || e.Airdate == tomorrow).ToList<Episode>();
+            foreach (var ep in allEpisodes)
+            {
+                se.EpisodeName = ep.EpisodeName;
+                se.EpisodeNr = ep.EpisodeNR;
+                se.EpisodeSeasonNr = ep.Season;
+                se.EpisodeAirdate = ep.Airdate;
+                se.SerieName = db.Series.FirstOrDefault(s => s.SerieId == ep.SerieId).SerieName;
+
+                list.Add(se);
+            }
+            overview.LstSerieInfoAndEpisode = list;
+
+            //var OverviewToday = new SerieInfoAndEpisodes();
+            //OverviewToday.Episodes = dbE.Episodes.Where(e => e.Airdate == today || e.Airdate == tomorrow).ToList<Episode>();
+
+            return View(overview);
         }
 
         public ActionResult SearchShow()
