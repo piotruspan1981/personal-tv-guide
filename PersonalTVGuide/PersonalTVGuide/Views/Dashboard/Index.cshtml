@@ -1,13 +1,108 @@
-﻿@model PersonalTVGuide.Models.SerieInfoAndEpisodes
+﻿@model PersonalTVGuide.Models.ListSerieInfoAndEpisode
 @{
     ViewBag.Title = "Dashboard";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+<script type="text/javascript">
+    function setupDataTables() {
+        $('#vandaagTable').dataTable({
+            "aaSorting": [[0, "asc"]],
+            "bAutoWidth": false,
+            "iDisplayLength": 20,
+            "aoColumns": [
+            /* Show */      null,
+            /* Season */    null,
+            /* Nummer */    null,
+            /* Naam */      null]
+        });
+
+        $('#morgenTable').dataTable({
+            "aaSorting": [[0, "asc"]],
+            "bAutoWidth": false,
+            "iDisplayLength": 20,
+            "aoColumns": [
+            /* Show */      null,
+            /* Season */    null,
+            /* Nummer */    null,
+            /* Naam */      null]
+        });
+    }
+
+    function pageLoad(sender, args) {
+        if (args.get_isPartialLoad()) {
+            setupDataTables();
+        }
+    }
+
+    $(document).ready(function () {
+        setupDataTables();
+    });
+</script>
+
 <h2>Dashboard</h2>
 <div>
-    
-    @if (Model.Episodes.Count != 0)
+    <div style="width: 1080px;">
+        <div style="float:left; width:520px;"> 
+            <h3>Vandaag</h3> <br />  
+            <table id="vandaagTable">
+		        <thead>
+			        <tr>
+                        <th>Show</th>
+			            <th style="width: 15px;">Seizoen</th>
+			            <th style="width: 30px;">Nummer</th>
+			            <th>Naam</th>
+			        </tr>
+		        </thead>
+		        <tbody>
+                    @foreach (var ep in Model.LstSerieInfoAndEpisode)
+                    {
+                        if(ep.EpisodeAirdate == DateTime.Now.Date)
+                        {
+                        <tr>
+                            <td>@ep.SerieName</td>
+                            <td>@ep.EpisodeSeasonNr</td>
+                            <td>@ep.EpisodeNr</td>
+                            <td>@ep.EpisodeName</td>
+                        </tr>
+                        }
+                    }
+		        </tbody>
+	        </table>
+        </div>
+        <div style="float:right; width:520px;">
+            <h3>Morgen</h3><br />   
+            <table id="morgenTable">
+		        <thead>
+			        <tr>
+                        <th>Show</th>
+			            <th style="width: 15px;">Seizoen</th>
+			            <th style="width: 30px;">Nummer</th>
+			            <th>Naam</th>
+			        </tr>
+		        </thead>
+		        <tbody>
+                    @foreach (var ep in Model.LstSerieInfoAndEpisode)
+                    {
+                        if (ep.EpisodeAirdate == DateTime.Now.Date.AddDays(1))
+                        {
+                        <tr>
+                            <td>@ep.SerieName</td>
+                            <td>@ep.EpisodeSeasonNr</td>
+                            <td>@ep.EpisodeNr</td>
+                            <td>@ep.EpisodeName</td>
+                        </tr>
+                        }
+                    }
+		        </tbody>
+	        </table>
+        </div>
+        <div style="clear: both" />
+    </div>
+    <br />
+    <hr />
+
+@*    @if (Model.Episodes.Count != 0)
     {
         
         <b>Vandaag</b>
@@ -29,7 +124,7 @@
                 }
        }
             
-    }
+    }*@
 
 
     Voeg nieuwe serie toe aan je favorieten:<br />
