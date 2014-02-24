@@ -5,14 +5,14 @@ namespace PersonalTVGuide.Migrations
     using System.Data.Entity.Migrations;
     using System.Linq;
 
-    internal sealed class Configuration : DbMigrationsConfiguration<PersonalTVGuide.Models.SerieContext>
+    internal sealed class Configuration : DbMigrationsConfiguration<PersonalTVGuide.Models.EpisodeContext>
     {
         public Configuration()
         {
             AutomaticMigrationsEnabled = false;
         }
 
-        protected override void Seed(PersonalTVGuide.Models.SerieContext context)
+        protected override void Seed(PersonalTVGuide.Models.EpisodeContext context)
         {
             //  This method will be called after migrating to the latest version.
 

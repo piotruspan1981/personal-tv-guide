@@ -1,10 +1,37 @@
-﻿@{
+﻿@model PersonalTVGuide.Models.SerieInfoAndEpisodes
+@{
     ViewBag.Title = "Dashboard";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <h2>Dashboard</h2>
 <div>
+    
+    @if (Model.Episodes.Count != 0)
+    {
+        
+        <b>Vandaag</b>
+       foreach (var ep in Model.Episodes)
+       {
+           if(ep.Airdate == DateTime.Now.Date)
+                {
+                    <p>  *serieNaam* S @ep.Season E @ep.EpisodeNR</p>                     
+                }
+       }
+            
+       
+        <b>Morgen</b>
+        foreach (var ep in Model.Episodes)
+       {
+           if(ep.Airdate == DateTime.Now.Date.AddDays(1))
+                {
+                    <p>  *serieNaam* S @ep.Season E @ep.EpisodeNR</p>                     
+                }
+       }
+            
+    }
+
+
     Voeg nieuwe serie toe aan je favorieten:<br />
 
     @using (Html.BeginForm("SearchShow", "Dashboard", FormMethod.Post))

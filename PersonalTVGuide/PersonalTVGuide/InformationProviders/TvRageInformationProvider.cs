@@ -39,7 +39,7 @@ namespace PersonalTVGuide.InformationProviders
                 {
                     ShowId = Get<int>(seas.Element("showid")),
                     Name = Get<string>(seas.Element("name")),
-                    Started = GetDate(seas.Element("started")),
+                    Started = GetDate2(seas.Element("started")),
                     Ended = GetDate(seas.Element("ended")),
                     Country = Get<string>(seas.Element("origin_country")),
                     Status = Get<string>(seas.Element("status")),
@@ -85,8 +85,21 @@ namespace PersonalTVGuide.InformationProviders
             if (e == null) return default(T);
             return (T) Convert.ChangeType(e.Value, typeof (T));
         }
+        // met null
+        private static DateTime? GetDate(XElement e)
+        {
+            if (e == null) return null;
 
-        private static DateTime GetDate(XElement e)
+            DateTime d;
+
+            if (DateTime.TryParse(e.Value, out d)) return d;
+            if (DateTime.TryParseExact(e.Value, "MMM/dd/yyyy", CultureInfo.CurrentCulture, DateTimeStyles.None, out d)) return d;
+            if (DateTime.TryParseExact(e.Value, "yyyy-MM-dd", CultureInfo.CurrentCulture, DateTimeStyles.None, out d)) return d;
+
+            return null;
+        }
+        //zonder null
+        private static DateTime GetDate2(XElement e)
         {
             if (e == null) return DateTime.MinValue;
 

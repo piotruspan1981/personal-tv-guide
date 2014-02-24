@@ -30,7 +30,7 @@ namespace PersonalTVGuide.Models
         public string EpisodeName { get; set; }
         public int Season { get; set; }
         public int EpisodeNR{ get; set; }
-        public DateTime Airdate { get; set; }
+        public DateTime? Airdate { get; set; }
         //public string IMG_url { get; set; }
     }
 
@@ -43,5 +43,11 @@ namespace PersonalTVGuide.Models
         public int UserId { get; set; }
         public int EpisodeId { get; set; }
     }
+
+    public class EpisodesList
+    {
+        public List<Episode> Episodes { get; set; }
+    }
+
 
 }
