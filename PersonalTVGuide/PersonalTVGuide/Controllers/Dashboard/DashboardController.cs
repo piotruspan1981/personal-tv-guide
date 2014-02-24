@@ -29,11 +29,11 @@ namespace PersonalTVGuide.Controllers
 
             var overview = new ListSerieInfoAndEpisode();
             var list = new List<ObjSerieInfoAndEpisode>();
-            var se = new ObjSerieInfoAndEpisode();
 
             var allEpisodes = dbE.Episodes.Where(e => e.Airdate == today || e.Airdate == tomorrow).ToList<Episode>();
             foreach (var ep in allEpisodes)
             {
+                var se = new ObjSerieInfoAndEpisode();
                 se.EpisodeName = ep.EpisodeName;
                 se.EpisodeNr = ep.EpisodeNR;
                 se.EpisodeSeasonNr = ep.Season;
