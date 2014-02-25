@@ -78,4 +78,10 @@ else
         Er zijn geen afleveringen beschikbaar voor @Model.Serie.SerieName!
     </div>
 }      
-    
+<br />
+@using (Html.BeginForm("Update", "Dashboard", FormMethod.Post))
+            {
+                <input type="hidden" name="hiddenShowId" id="hiddenShowId" value="@Model.Serie.SerieId" />
+                <input type="submit" value="update" />
+            } 
+@ViewBag.ShowErrorMsg  
