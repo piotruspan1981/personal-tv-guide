@@ -61,8 +61,15 @@ namespace PersonalTVGuide.Controllers
             ModelState.AddModelError("", "The user name or password provided is incorrect.");
             return View(model);
         }
-        
 
+        public ActionResult FavSeries()
+        {
+            // pakt UserID van ingelogde user
+            object Userid = Membership.GetUser().ProviderUserKey;
+
+            return View("profile");
+
+        }
         public ActionResult Profile()
         {
             // pakt UserID van ingelogde user
