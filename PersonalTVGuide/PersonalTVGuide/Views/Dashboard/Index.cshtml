@@ -173,7 +173,7 @@
                 <b>Duur van aflevering:</b> @ViewBag.serie.Runtime <br />
                 <b>Start Jaar:</b> @ViewBag.serie.Started <br />
                 <b>Status:</b> @ViewBag.serie.Status <br />
-                @foreach (var y  in @ViewBag.serie.Seasons)
+                @foreach (var y  in ViewBag.serie.Seasons)
                 {
                     @y.SeasonNumber<br />
                 }
