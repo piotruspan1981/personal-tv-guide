@@ -4,11 +4,28 @@
 }
 
 <script type="text/javascript">
+    //The sorting for the Date column in form dd-MM-yyyy
+    jQuery.extend(jQuery.fn.dataTableExt.oSort, {
+        "date-uk-pre": function (a) {
+            var ukDatea = a.split('-');
+            return (ukDatea[2] + ukDatea[1] + ukDatea[0]) * 1;
+        },
+
+        "date-uk-asc": function (a, b) {
+            return ((a < b) ? -1 : ((a > b) ? 1 : 0));
+        },
+
+        "date-uk-desc": function (a, b) {
+            return ((a < b) ? 1 : ((a > b) ? -1 : 0));
+        }
+    });
+
     function setupDataTable() {
         $('#productsTable').dataTable({
             "aaSorting": [[0, "asc"]],
             "bAutoWidth": false,
             "iDisplayLength": 20,
+            "aoColumnDefs": [{ "sType": "date-uk", "aTargets": [3] }],
             "aoColumns": [
             /* Seizoen */   null,
             /* Nummer */    null,
