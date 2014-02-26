@@ -16,7 +16,7 @@ namespace PersonalTVGuide.Models
         }
 
         public DbSet<Serie> Series { get; set; }
-        public DbSet<UserHasSerie> UserHadSeries { get; set; }
+        public DbSet<UserHasSerie> UserHasSeries { get; set; }
     }
 
     [Table("Serie")]

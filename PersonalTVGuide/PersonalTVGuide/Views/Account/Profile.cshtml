@@ -7,39 +7,18 @@
 <h2>Profile</h2>
 <fieldset>
     <legend>Profile</legend>
-
-    <div class="display-label">
+    <div style="width: 1080px;">
+        <div style="float:left; width:520px;"> 
+     <div class="display-label">
          @Html.DisplayNameFor(model => model.UserId)
     </div>
-    <div class="display-field">
-        @Html.DisplayFor(model => model.UserId)
-    </div>
-
-    <div class="display-label">
-         @Html.DisplayNameFor(model => model.UserName)
-    </div>
-    <div class="display-field">
-        @Html.DisplayFor(model => model.UserName)
-    </div>
-
-    <div class="display-label">
-         @Html.DisplayNameFor(model => model.Email)
-    </div>
-    <div class="display-field">
-        @Html.DisplayFor(model => model.Email)
-    </div>
-    <div class="display-label">
-         @Html.DisplayNameFor(model => model.FirstName)
-    </div>
-    <div class="display-field">
-        @Html.DisplayFor(model => model.FirstName)
-    </div>
-    <div class="display-label">
-         @Html.DisplayNameFor(model => model.LastName)
-    </div>
-    <div class="display-field">
-        @Html.DisplayFor(model => model.LastName)
-    </div>
+        <b>Username:</b> @Model.UserName <br />
+        <b>Email</b> @Model.Email <br />
+        <b>Voornaam</b> @Model.FirstName<br />
+        <b>Achternaam</b> @Model.LastName<br />
+        <b>Laatste login</b> @Model.LastOnline <br />
+   
+   
     <div class="display-label">
          @Html.DisplayNameFor(model => model.NotificationFreq)
     </div>
@@ -52,13 +31,21 @@
     <div class="display-field">
         @Html.DisplayFor(model => model.AvatarUrl)
     </div>
-    <div class="display-label">
-         @Html.DisplayNameFor(model => model.LastOnline)
-    </div>
-    <div class="display-field">
-        @Html.DisplayFor(model => model.LastOnline)
-    </div>
-
-    @Html.ActionLink("change password", "Manage", "Account", routeValues: null, htmlAttributes: new { @class = "username", title = "Manage" })
-    @Html.ActionLink("Edit", "Edit", new { id=Model.UserId }) 
+    
+</div>
+        <div style="float:right; width:500px;"> 
+            <b>Favorieten</b>
+            
+           @foreach (var s in ViewBag.Favseries)
+           {
+          
+               @s <br /> //@Html.ActionLink("Details", "GetShowDetails", new { id=@ViewBag.serie.ShowId }) 
+           }   
+           
+         </div>
+</div>
+    
+   
 </fieldset>
+ @Html.ActionLink("change password", "Manage", "Account", routeValues: null, htmlAttributes: new { @class = "username", title = "Manage" })
+ @Html.ActionLink("Edit", "Edit", new { id=Model.UserId }) 

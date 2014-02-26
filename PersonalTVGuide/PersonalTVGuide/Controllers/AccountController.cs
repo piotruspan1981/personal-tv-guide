@@ -25,6 +25,7 @@ namespace PersonalTVGuide.Controllers
     public class AccountController : Controller
     {
         private UsersContext db = new UsersContext();
+        private SerieContext dbS = new SerieContext();
         //
         // GET: /Account/Login
 
@@ -62,12 +63,49 @@ namespace PersonalTVGuide.Controllers
             return View(model);
         }
 
-        public ActionResult FavSeries()
+        public void FavSeries()
         {
             // pakt UserID van ingelogde user
-            object Userid = Membership.GetUser().ProviderUserKey;
+            object Userid =Membership.GetUser().ProviderUserKey;
+            int UseridInt = Convert.ToInt32(Userid);
+         
+            /*
+             * User has series -> gegevens van deze serie
+             */
 
-            return View("profile");
+            var test = dbS.UserHasSeries.AsQueryable().Where(s => s.UserId == WebSecurity.CurrentUserId)
+                            .Join(dbS.Series, u => u.SerieId, s => s.SerieId, (u, s) => s).Select(s => new {s.SerieName, s.SerieId}).ToList();
+            var UhasS = (from t in dbS.UserHasSeries
+                         join s in dbS.Series on t.SerieId equals s.SerieId
+                         where t.SerieId == s.SerieId && t.UserId == WebSecurity.CurrentUserId
+                         select new 
+                         {
+                             s.SerieId,
+                             s.SerieName
+                         }).ToList();
+            //test.Serie = UhasS;
+            //dbS.UserHasSeries.Where
+                //s => s.UserId == UseridInt).ToList<UserHasSerie>();
+            //foreach (var u in UhasS)
+            //{
+               
+            //    var serie = dbS.Series.Where(n => n.SerieId == u.SerieId);
+            //   // test = serie
+            //    var fav = new Serie();
+            //    fav.SerieName = serie;
+            //}
+            
+            /*
+            var Serienames
+            iterator List<Overview>
+            {
+              dbS.Series.Where(s => s.SerieId == OverView[1]);
+            }
+            */
+            
+            ViewBag.Favseries = test;
+            //dbE.Episodes.Where(e => e.Airdate == today || e.Airdate == tomorrow)
+            //return View("profile");
 
         }
         public ActionResult Profile()
@@ -82,6 +120,7 @@ namespace PersonalTVGuide.Controllers
                 return HttpNotFound();
             }
             // geeft de waardes die in profile staan door aan de view
+            FavSeries();
             return View(profile);
         }
 

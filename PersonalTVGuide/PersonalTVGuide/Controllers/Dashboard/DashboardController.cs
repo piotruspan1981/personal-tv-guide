@@ -182,11 +182,11 @@ namespace PersonalTVGuide.Controllers
             using (SerieContext db = new SerieContext())
             {
                 //voert een zoekopdracht uit in de database om te kijken of user als serie als favoriet heeft.
-                var uhsExists = db.UserHadSeries.FirstOrDefault(s => s.SerieId == showId && s.UserId == WebSecurity.CurrentUserId);
+                var uhsExists = db.UserHasSeries.FirstOrDefault(s => s.SerieId == showId && s.UserId == WebSecurity.CurrentUserId);
                 if (uhsExists == null)
                 {
                     // voegt in table UserHasSerie serieId en bij de userId
-                    db.UserHadSeries.Add(new UserHasSerie
+                    db.UserHasSeries.Add(new UserHasSerie
                     {
                         UserId = WebSecurity.CurrentUserId,
                         SerieId = showId
