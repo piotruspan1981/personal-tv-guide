@@ -34,12 +34,12 @@
     
 </div>
         <div style="float:right; width:500px;"> 
-            <b>Favorieten</b>
+            <b>Favorieten</b><br />
             
            @foreach (var s in ViewBag.Favseries)
            {
           
-               @s <br /> //@Html.ActionLink("Details", "GetShowDetails", new { id=@ViewBag.serie.ShowId }) 
+               @s.SerieName @Html.ActionLink("Details", "GetShowDetails", "Dashboard", new { id=s.SerieId }, null) <br />
            }   
            
          </div>
