@@ -439,10 +439,8 @@ input, textarea {
     border: 1px solid #e2e2e2;
     background: #fff;
     color: #333;
-    font-size: 1.2em;
-    margin: 5px 0 6px 0;
-    padding: 5px;
-    width: 300px;
+    padding: 2px;
+    width: 150px;
 }
 
 textarea {
@@ -466,10 +464,9 @@ textarea {
         background-color: #d3dce0;
         border: 1px solid #787878;
         cursor: pointer;
-        font-size: 1.2em;
         font-weight: 600;
-        padding: 7px;
-        margin-right: 8px;
+        padding: 4px;
+        margin-right: 4px;
         width: auto;
     }
 
