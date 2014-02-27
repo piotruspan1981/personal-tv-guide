@@ -68,11 +68,11 @@ namespace PersonalTVGuide.Controllers
             {
                 return View("Error");
             }
-
+            //telt hoeveel objecten in showlist staat en stopt het in viewbag
             ViewBag.ShowCount = showList.Count;
 
             var ddlItems = new List<SelectListItem>();
-
+            // stopt alle results in ddlItems
             foreach (var s in showList)
             {
                 ddlItems.Add(new SelectListItem
@@ -220,7 +220,8 @@ namespace PersonalTVGuide.Controllers
                     foreach (var y in z.Episodes)
                     {
                         Episode episodeExists = null;
-                        episodeExists = dbE.Episodes.FirstOrDefault(e => e.EpisodeName == y.Title);
+                        episodeExists = dbE.Episodes.FirstOrDefault(e => e.EpisodeNR == y.EpisodeNumber && e.SerieId == show.ShowId && e.Season == z.SeasonNumber);
+
                         // voegt nieuwe episode toe als die nog niet in DB staat.
                         if (episodeExists == null)
                         {
@@ -235,6 +236,7 @@ namespace PersonalTVGuide.Controllers
                             });
                             dbE.SaveChanges();
                         }
+
                         else
                         {
                             // overschrijft bestaande gegevens met nieuwe(wss altijd het zelfde)
@@ -303,7 +305,7 @@ namespace PersonalTVGuide.Controllers
                             foreach (var y in z.Episodes)
                             {
                                 Episode episodeExists = null;
-                                episodeExists = dbE.Episodes.FirstOrDefault(e => e.EpisodeName == y.Title);
+                                episodeExists = dbE.Episodes.FirstOrDefault(e => e.EpisodeNR == y.EpisodeNumber && e.SerieId == show.ShowId && e.Season == z.SeasonNumber);
                                 // voegt nieuwe episode toe als die nog niet in DB staat.
                                 if (episodeExists == null)
                                 {
