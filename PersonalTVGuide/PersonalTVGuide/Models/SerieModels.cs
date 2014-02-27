@@ -52,6 +52,7 @@ namespace PersonalTVGuide.Models
    {
        public int SerieId { get; set; }
        public string SerieName { get; set; }
+       public int UhasSID { get; set; }
    }
 
    public class SerieInfoAndEpisodes

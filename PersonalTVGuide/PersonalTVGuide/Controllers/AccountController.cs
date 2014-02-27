@@ -63,20 +63,19 @@ namespace PersonalTVGuide.Controllers
             return View(model);
         }
 
+        // aanmaken van methode voor favoriete series overzicht.
         public List<UserSerieFavorites> FavSeries()
         {
-            // pakt UserID van ingelogde user
-            object Userid =Membership.GetUser().ProviderUserKey;
-            int UseridInt = Convert.ToInt32(Userid);
-            var bla = new List<UserSerieFavorites>();
+            
+            var FavOverview = new List<UserSerieFavorites>();
          
             /*
              * User has series -> gegevens van deze serie
              */
-
-            bla = dbS.UserHasSeries.Where(s => s.UserId == WebSecurity.CurrentUserId)
-                .Join(dbS.Series, u => u.SerieId, s => s.SerieId, (u, s) => s)
-                .Select(s => new UserSerieFavorites { SerieName = s.SerieName, SerieId = s.SerieId }).ToList();
+            //query die uit 2 tables informatie haalt met behulpd van join, van table serie seriename en serieid, en van table userhasserie het id
+            FavOverview = dbS.UserHasSeries.Where(s => s.UserId == WebSecurity.CurrentUserId)
+                .Join(dbS.Series, u => u.SerieId, s => s.SerieId, (u, s) => new { s.SerieName, s.SerieId, u.Id } )
+                .Select(s => new UserSerieFavorites { SerieName = s.SerieName, SerieId = s.SerieId, UhasSID = s.Id}).ToList();
 
             //var UhasS = (from t in dbS.UserHasSeries
             //             join s in dbS.Series on t.SerieId equals s.SerieId
@@ -87,8 +86,31 @@ namespace PersonalTVGuide.Controllers
             //                 s.SerieName
             //             }).ToList();
 
-            return bla;
+            return FavOverview;
         }
+       
+
+        // methode om favoriete serie te deleten
+        public ActionResult Delete(int id = 0)
+        {
+            // zoek in userHasSeries table naar match van de meegegeven ID
+            UserHasSerie fav = dbS.UserHasSeries.Find(id);
+            if (fav == null)
+            {
+                return HttpNotFound();
+            }
+            else
+            {   
+                //verwijderd gekozen data uit DB
+                dbS.UserHasSeries.Remove(fav);
+                dbS.SaveChanges();
+            }
+            Profile();
+            return View("Profile");
+        }
+
+       
+
 
         public ActionResult Profile()
         {
