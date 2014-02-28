@@ -72,7 +72,8 @@ namespace PersonalTVGuide.Controllers
             /*
              * User has series -> gegevens van deze serie
              */
-            //query die uit 2 tables informatie haalt met behulpd van join, van table serie seriename en serieid, en van table userhasserie het id
+            //query die uit 2 tables informatie haalt met behulp van join, 
+            //van table serie seriename en serieid, en van table userhasserie het id
             FavOverview = dbS.UserHasSeries.Where(s => s.UserId == WebSecurity.CurrentUserId)
                 .Join(dbS.Series, u => u.SerieId, s => s.SerieId, (u, s) => new { s.SerieName, s.SerieId, u.Id } )
                 .Select(s => new UserSerieFavorites { SerieName = s.SerieName, SerieId = s.SerieId, UhasSID = s.Id}).ToList();

@@ -48,8 +48,8 @@
 
 <h2>Dashboard</h2>
 <div>
-    <div style="width: 1080px;">
-        <div style="float:left; width:520px;"> 
+    <div style="width: 900px;">
+        <div style="float:left; width:450px;"> 
             <h3>Vandaag</h3> <br />  
             <table id="vandaagTable">
 		        <thead>
@@ -80,7 +80,7 @@
 		        </tbody>
 	        </table>
         </div>
-        <div style="float:right; width:520px;">
+        <div style="float:right; width:450px;">
             <h3>Morgen</h3><br />   
             <table id="morgenTable">
 		        <thead>
@@ -171,10 +171,11 @@
                 <b>Duur van aflevering:</b> @ViewBag.serie.Runtime <br />
                 <b>Start Jaar:</b> @ViewBag.serie.Started <br />
                 <b>Status:</b> @ViewBag.serie.Status <br />
-                @foreach (var y  in ViewBag.serie.Seasons)
+               @* @foreach (var y  in ViewBag.serie.Seasons)
                 {
                     @y.SeasonNumber<br />
                 }
+                *@
             </div>
             <div style="float:right">
                 <img src="@Url.Content(ViewBag.serie.ImageUrl)" alt="@ViewBag.serie.Name" style="height: 110px" />
