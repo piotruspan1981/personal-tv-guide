@@ -47,7 +47,7 @@
                <tr>
                         <td>@s.SerieName</td>
                         <td>@Html.ActionLink("Details", "GetShowDetails", "Dashboard", new { id=s.SerieId }, null)</td>
-                        <td>@Html.ActionLink("Delete", "Delete", new { id=s.UhasSID })</td>
+                        <td>@Html.ActionLink("Delete", "Delete", new { id=s.UhasSID },new { onclick = "return confirm('Weet u zeker dat u deze serie wilt verwijderen?');" })</td>
                         
                     </tr>
                 
