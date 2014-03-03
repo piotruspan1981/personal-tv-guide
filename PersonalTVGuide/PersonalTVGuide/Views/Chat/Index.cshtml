@@ -1,9 +1,13 @@
 ﻿@model PersonalTVGuide.Models.Shoutbox
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "index";
 }
 
-<h2>Index</h2>
-@Html.HiddenFor(m => m.UID)
-@Html.TextAreaFor(m => m.Text)
-
+<h2>index</h2>
+@using (Html.BeginForm("Shoutbox", "Chat", FormMethod.Post))
+{
+   
+    @Html.TextAreaFor(m => m.Text , new { cols = 25, @rows = 3 })
+    
+    <input type="submit" value="Verstuur" />
+}
