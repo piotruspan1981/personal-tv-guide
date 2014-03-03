@@ -199,7 +199,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
-    <Compile Include="Controllers\ChatController.cs" />
+    <Compile Include="Controllers\Chat\ChatController.cs" />
     <Compile Include="Controllers\Dashboard\DashboardController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Filters\InitializeSimpleMembershipAttribute.cs" />
@@ -215,6 +215,10 @@
     <Compile Include="Migrations\201402241103113_airdatenull.cs" />
     <Compile Include="Migrations\201402241103113_airdatenull.Designer.cs">
       <DependentUpon>201402241103113_airdatenull.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201403031538116_chat.cs" />
+    <Compile Include="Migrations\201403031538116_chat.Designer.cs">
+      <DependentUpon>201403031538116_chat.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountModels.cs" />
@@ -390,6 +394,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201402241103113_airdatenull.resx">
       <DependentUpon>201402241103113_airdatenull.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201403031538116_chat.resx">
+      <DependentUpon>201403031538116_chat.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
