@@ -5,6 +5,8 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Data.Entity;
 using System.Linq;
 using System.Web;
+using System.Globalization;
+using System.Web.Security;
 
 namespace PersonalTVGuide.Models
 {
@@ -44,4 +46,20 @@ namespace PersonalTVGuide.Models
         public string Text { get; set; }
         public bool Opened{ get; set; }
     }
+
+    public class ListShoutboxDisplay
+    {
+        public List<ObjShoutboxDisplay> LstShoutboxDisplay { get; set; }
+        public string Text { get; set; }
+    }
+
+    public class ObjShoutboxDisplay
+    {
+        public int UID { get; set; }
+        public string UserName { get; set; }
+        public DateTime DateAndTime { get; set; }
+        public string Text { get; set; }
+
+    }
+
 }
