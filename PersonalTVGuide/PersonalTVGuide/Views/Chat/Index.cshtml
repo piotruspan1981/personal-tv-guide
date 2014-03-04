@@ -1,4 +1,5 @@
-﻿@model PersonalTVGuide.Models.Shoutbox
+﻿@model PersonalTVGuide.Models.ListShoutboxDisplay
+
 @{
     ViewBag.Title = "index";
 }
@@ -7,7 +8,15 @@
 @using (Html.BeginForm("Shoutbox", "Chat", FormMethod.Post))
 {
    
-    @Html.TextAreaFor(m => m.Text , new { cols = 25, @rows = 3 })
+    @Html.TextAreaFor(m => m.Text, new { cols = 15, @rows = 3 })
     
     <input type="submit" value="Verstuur" />
+}
+@if (Model.LstShoutboxDisplay.Count != 0)
+{
+foreach (var t in Model.LstShoutboxDisplay)
+    {
+        <p>@t.UserName - @t.DateAndTime <br /> @t.Text </p>
+        <hr />   
+    }
 }

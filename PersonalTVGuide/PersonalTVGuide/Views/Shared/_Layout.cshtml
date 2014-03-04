@@ -60,6 +60,14 @@
 
          <div id="sidebar">
             @RenderSection("SideBar", required : false)
+            @*@if (Model.LstShoutboxDisplay.Count != 0)
+            {
+                foreach (var t in Model.LstShoutboxDisplay)
+                {
+                    <p>@t.UserName - @t.DateAndTime <br /> @t.Text </p>
+                    <hr />   
+                }
+            }*@
         </div>
         
         <footer>
