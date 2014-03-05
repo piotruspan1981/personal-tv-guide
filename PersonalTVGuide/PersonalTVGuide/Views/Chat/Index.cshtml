@@ -3,20 +3,47 @@
 @{
     ViewBag.Title = "index";
 }
+<script type="text/javascript">
+    //function input_onclear() {
+    //    $("#ShoutboxInput").val("");
+        // Change "EditorID" to the EditorID that you like to remove the text.
+        //$("#EditorID").val("");
+
+    
+        
+    //}
+        function countChar(val) {
+            var len = val.value.length;
+            if (len >= 201) {
+                val.value = val.value.substring(0, 200);
+            } else {
+                $('#charNum').text(200 - len);
+            }
+        };
+</script>
 
 <h2>index</h2>
+
 @using (Html.BeginForm("Shoutbox", "Chat", FormMethod.Post))
 {
    
-    @Html.TextAreaFor(m => m.Text, new { cols = 15, @rows = 3 })
-    
-    <input type="submit" value="Verstuur" />
+    @Html.TextAreaFor(m => m.Text, new { id= "ShoutboxInput", cols = 15, @rows = 3, maxlength = 200, onkeyup="countChar(this)" })
+    <input type="submit" value="Verstuur" /> <div id="charNum"></div>  
+  
 }
+<div style="font-family:Verdana; font-size: 12px; color:black" >
 @if (Model.LstShoutboxDisplay.Count != 0)
 {
-foreach (var t in Model.LstShoutboxDisplay)
+
+    foreach (var t in Model.LstShoutboxDisplay)
     {
-        <p>@t.UserName - @t.DateAndTime <br /> @t.Text </p>
+        
+            <p>@t.UserName - @t.DateAndTime <br /> @t.Text </p>
         <hr />   
+
+       
+        
     }
+      
 }
+ </div>

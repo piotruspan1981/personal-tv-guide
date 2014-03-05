@@ -57,6 +57,7 @@ namespace PersonalTVGuide.Controllers
 
                
               db.SaveChanges();
+              ModelState.Clear();
               Index();
               return View("index");
                 
