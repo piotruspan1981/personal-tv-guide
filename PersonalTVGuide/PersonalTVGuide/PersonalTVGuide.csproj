@@ -312,7 +312,7 @@
     <Content Include="Images\DataTables\sort_both.png" />
     <Content Include="Images\DataTables\sort_desc.png" />
     <Content Include="Images\DataTables\sort_desc_disabled.png" />
-    <Content Include="Images\ptvgLiekele.net.png" />
+    <Content Include="Images\ptvglogo.net.png" />
     <Content Include="Scripts\jquery-2.0.3.js" />
     <Content Include="Scripts\jquery-2.0.3.min.js" />
     <Content Include="Scripts\jquery-2.0.3.min.map" />
@@ -379,6 +379,7 @@
     <Content Include="Views\Dashboard\Serie.cshtml" />
     <Content Include="Views\Dashboard\GetShowDetails.cshtml" />
     <Content Include="Views\Chat\Index.cshtml" />
+    <Content Include="Views\Chat\PrivatemessageInput.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

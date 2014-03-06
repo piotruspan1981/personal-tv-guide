@@ -10,22 +10,18 @@
     <div style="width: 1080px;">
         <div style="float:left; width:400px;"> 
      <div class="display-label">
-         @Html.DisplayNameFor(model => model.UserId)
+         @Html.HiddenFor(model => model.UserId)
     </div>
         <b>Username:</b> @Model.UserName <br />
         <b>Email</b> @Model.Email <br />
         <b>Voornaam</b> @Model.FirstName<br />
         <b>Achternaam</b> @Model.LastName<br />
-        <b>Laatste login</b> @Model.LastOnline <br />
+        <b>Laatste login</b> @Model.LastOnline<br />
    
-   
-    <div class="display-label">
-         @Html.DisplayNameFor(model => model.NotificationFreq)
-    </div>
-    <div class="display-field">
-        @Html.DisplayFor(model => model.NotificationFreq)
-    </div>
+    @if(Model.AvatarUrl != null)
+    {
     <img src="@Url.Content(Model.AvatarUrl)" alt="geen geldige afbeelding" style="height: 100px" /> <br />
+    }
     
      @Html.ActionLink("change password", "Manage", "Account", routeValues: null, htmlAttributes: new { @class = "username", title = "Manage" })
      @Html.ActionLink("Edit", "Edit", new { id=Model.UserId }) 

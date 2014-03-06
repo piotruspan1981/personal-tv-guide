@@ -62,4 +62,20 @@ namespace PersonalTVGuide.Models
 
     }
 
+    public class ListPrivateMsg
+    {
+        public List<ObjPrivateMsg> LstPrivateMsg { get; set; }
+        public string Text { get; set; }
+    }
+
+    public class ObjPrivateMsg
+    {
+        public int MsgID { get; set; }
+        public int SUID { get; set; }
+        public string SenderName { get; set; }
+        public DateTime DateAndTime { get; set; }
+        public string Text { get; set; }
+        public bool Opened { get; set; }
+    }
+
 }
