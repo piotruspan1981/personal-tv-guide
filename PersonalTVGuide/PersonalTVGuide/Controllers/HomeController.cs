@@ -15,7 +15,7 @@ namespace PersonalTVGuide.Controllers
     {
         public ActionResult Index()
         {
-            ViewBag.Message = "Welkom op deze vette website om je series bij te houden.";
+            ViewBag.Message = "Welkom op deze website om je series bij te houden.";
 
             return View();
         }

@@ -20,13 +20,13 @@
                 <div class="float-left">
                     <p class="site-title">@Html.ActionLink( " ", "Index", "Home", 
                                                             new { 
-                                                            style = "background: url('" + Url.Content("~/images/ptvgLiekele.net.png") + "') no-repeat center right; display:block; height:84px; width:264px;" 
+                                                            style = "background: url('" + Url.Content("~/images/ptvglogo.net.png") + "') no-repeat center right; display:block; height:84px; width:264px;" 
                                                             }  )</p> 
                 </div>
                 <div class="float-right">
                     <section id="login">
                         @Html.Partial("_LoginPartial")
-                    @*</section>*@
+                    </section>
                     <nav>
                         <ul id="menu">
                             <li>
@@ -45,6 +45,12 @@
                                     @Html.ActionLink("Shoutbox", "index", "Chat")
                                  }
                             </li>
+                            <li>
+                                 @if (User.Identity.IsAuthenticated)
+                                 {
+                                    @Html.ActionLink("Privé bericht", "PrivatemessageInput", "Chat")
+                                 }
+                            </li>
                             <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
                         </ul>
                     </nav>
@@ -56,18 +62,6 @@
             <section class="content-wrapper main-content clear-fix">
                 @RenderBody()
             </section>
-        </div>
-
-         <div id="sidebar">
-            @RenderSection("SideBar", required : false)
-            @*@if (Model.LstShoutboxDisplay.Count != 0)
-            {
-                foreach (var t in Model.LstShoutboxDisplay)
-                {
-                    <p>@t.UserName - @t.DateAndTime <br /> @t.Text </p>
-                    <hr />   
-                }
-            }*@
         </div>
         
         <footer>
