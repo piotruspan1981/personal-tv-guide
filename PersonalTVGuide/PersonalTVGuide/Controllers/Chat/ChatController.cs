@@ -105,8 +105,11 @@ namespace PersonalTVGuide.Controllers
 
                 list.Add(ObjPmsg);
             }
-            
 
+            if (TempData["shortMessage"] != null)
+            {
+                ViewBag.ShowErrorMsg = TempData["shortMessage"].ToString();
+            }
 
             privateMsg.LstPrivateMsg = list;
             return View(privateMsg);
@@ -143,14 +146,14 @@ namespace PersonalTVGuide.Controllers
                 });
                 db.SaveChanges();
                 ModelState.Clear();
-                ViewBag.ShowErrorMsg = "Bericht is verzonden!";
-                //return RedirectToAction("PrivatemessageInput");
+                TempData["shortMessage"] = "Bericht is verzonden!";
+               
             }
             catch
             {
                 ModelState.Clear();
-                ViewBag.ShowErrorMsg = "De ontvanger bestaat niet.";
-                //return RedirectToAction("PrivatemessageInput");
+                TempData["shortMessage"] = "De ontvanger bestaat niet.";
+                
             }
 
             
