@@ -23,8 +23,8 @@
     <img src="@Url.Content(Model.AvatarUrl)" alt="geen geldige afbeelding" style="height: 100px" /> <br />
     }
     
-     @Html.ActionLink("change password", "Manage", "Account", routeValues: null, htmlAttributes: new { @class = "username", title = "Manage" })
-     @Html.ActionLink("Edit", "Edit", new { id=Model.UserId }) 
+     @Html.ActionLink("Wachtwoord veranderen", "Manage", "Account", routeValues: null, htmlAttributes: new { @class = "username", title = "Manage" })
+     @Html.ActionLink("Gegevens aanpassen", "Edit", new { id=Model.UserId }) 
 </div>
         <div style="float:left; width:500px;"> 
             <b>Favorieten</b><br />
