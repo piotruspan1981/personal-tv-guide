@@ -208,6 +208,8 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Helpers\Notification.cs" />
+    <Compile Include="Helpers\Notifications.cs" />
     <Compile Include="InformationProviders\IInformationProvider.cs" />
     <Compile Include="InformationProviders\TvRageInformationProvider.cs" />
     <Compile Include="Migrations\201402181038258_serie.cs" />
@@ -380,6 +382,7 @@
     <Content Include="Views\Dashboard\GetShowDetails.cshtml" />
     <Content Include="Views\Chat\Index.cshtml" />
     <Content Include="Views\Chat\PrivatemessageInput.cshtml" />
+    <Content Include="Views\Emails\NotificationEmail.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

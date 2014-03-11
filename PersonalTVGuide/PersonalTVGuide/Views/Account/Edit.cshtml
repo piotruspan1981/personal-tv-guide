@@ -38,6 +38,10 @@
                 @Html.TextBoxFor(m => m.AvatarUrl)
                 @Html.ValidationMessageFor(m=> m.AvatarUrl)
             </li>
+            <li>
+                @Html.LabelFor(m => m.NotificationFreq)
+                @Html.DropDownListFor(m => m.NotificationFreq, new SelectList(Notifications.listNotifications, "NotificationId", "Name")) 
+            </li>
          </ol>
      </fieldset>
     <input type="submit" value="Save" />
