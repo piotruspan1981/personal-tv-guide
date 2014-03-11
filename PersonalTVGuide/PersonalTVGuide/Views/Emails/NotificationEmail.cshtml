@@ -1,36 +1,9 @@
-﻿@{
-    Layout = null;
-}
-
-To: @ViewBag.To
+﻿To: @ViewBag.To
 From: PTVG@website.com
 Subject: Episode Notification
+Views: Html
 
-Hello @ViewBag.UserName,
 
-Shows die op @DateTime.Now worden uitgezonden:
 
-<table>
-    <thead>
-        <tr>
-            <th>Show</th>
-            <th>Episode</th>
-            <th>Nummer</th>
-            <th>Date</th>
-        </tr>
-    </thead>
-    <tbody>
-        @{PersonalTVGuide.Models.ListSerieInfoAndEpisode list = ViewBag.episodes;} 
-        @foreach (var ep in list.LstSerieInfoAndEpisode)
-        {
-            <tr>
-                <td>@ep.SerieName</td>
-                <td>@ep.EpisodeName</td>
-                <td>S + @ep.EpisodeSeasonNr - E + @ep.EpisodeNr</td>
-                <td>@ep.EpisodeAirdate</td>
-            </tr>
-        }
-    </tbody>
-</table>
 
 
