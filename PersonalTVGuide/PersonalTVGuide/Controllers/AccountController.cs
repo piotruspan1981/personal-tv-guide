@@ -18,14 +18,13 @@ using System.Data.Entity;
 
 namespace PersonalTVGuide.Controllers
 {
-   
-
     [Authorize]
     [InitializeSimpleMembership]
     public class AccountController : Controller
     {
         private UsersContext db = new UsersContext();
         private SerieContext dbS = new SerieContext();
+        private EpisodeContext dbE = new EpisodeContext();
         //
         // GET: /Account/Login
 
@@ -52,6 +51,15 @@ namespace PersonalTVGuide.Controllers
                     userProfile.LastOnline = DateTime.Now;
                     db.Entry(userProfile).State = EntityState.Modified;
                     db.SaveChanges();
+                
+
+                    dynamic email = new Email("NotificationEmail");
+                    email.To = userProfile.Email;
+                    email.UserName = userProfile.UserName;
+
+                    email.episodes = GetEpisodesForNotification(userProfile.NotificationFreq);
+
+                    email.Send();
                 }
 
                 //return RedirectToLocal(returnUrl);
@@ -61,6 +69,39 @@ namespace PersonalTVGuide.Controllers
             // If we got this far, something failed, redisplay form
             ModelState.AddModelError("", "The user name or password provided is incorrect.");
             return View(model);
+        }
+
+        public ListSerieInfoAndEpisode GetEpisodesForNotification(int freq)
+        {
+            var notificationList = new ListSerieInfoAndEpisode();
+            var list = new List<ObjSerieInfoAndEpisode>();
+            var allEpisodes = new List<Episode>();
+            DateTime today = DateTime.Now.Date;
+
+            if (freq == 0)
+                allEpisodes = dbE.Episodes.Where(e => e.Airdate == today).ToList<Episode>();
+            else
+            {
+                DateTime week = DateTime.Now.Date.AddDays(7);
+                allEpisodes = dbE.Episodes.Where(e => e.Airdate >= today && e.Airdate <= week).ToList<Episode>();
+            }
+
+            foreach (var ep in allEpisodes)
+            {
+                // toevoegen van gevonden resultaten
+                var se = new ObjSerieInfoAndEpisode();
+                se.EpisodeName = ep.EpisodeName;
+                se.EpisodeNr = ep.EpisodeNR;
+                se.EpisodeSeasonNr = ep.Season;
+                se.EpisodeAirdate = ep.Airdate;
+                se.SerieName = dbS.Series.FirstOrDefault(s => s.SerieId == ep.SerieId).SerieName;
+
+                list.Add(se);
+            }
+
+            notificationList.LstSerieInfoAndEpisode = list;
+
+            return notificationList;
         }
 
         // aanmaken van methode voor favoriete series overzicht.
