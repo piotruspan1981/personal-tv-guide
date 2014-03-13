@@ -65,7 +65,6 @@ namespace PersonalTVGuide.Controllers
                
               db.SaveChanges();
               ModelState.Clear();
-              //Index();
               return RedirectToAction("Index");
                 
             }
@@ -74,13 +73,14 @@ namespace PersonalTVGuide.Controllers
             return View("index");
         }
 
-       
+       // methode voor berichten laten zien
         public ActionResult PrivatemessageInput()
         {
             
             var privateMsg = new ListPrivateMsg();
             var list = new List<ObjPrivateMsg>();
 
+            //query die de berichten ophaald voor ingelogde gebruiker, sorteert het zo dat nieuweste berichtne boven aan staan.
             var querypmsg = db.PrivateMsg.Where(u => u.ReceiverID == WebSecurity.CurrentUserId)
                 .Select(p => new ObjPrivateMsg
             {
@@ -93,6 +93,7 @@ namespace PersonalTVGuide.Controllers
                 .OrderByDescending(o => o.DateAndTime)
                 .ToList();
 
+            //opslpitsen van query resultaten naar objecten. een voor een toevoegen aan lijst
             foreach (var msg in querypmsg)
             {
                 var ObjPmsg = new ObjPrivateMsg();
@@ -106,16 +107,19 @@ namespace PersonalTVGuide.Controllers
                 list.Add(ObjPmsg);
             }
 
+            //verwerken van message uit privatemessage methode
             if (TempData["shortMessage"] != null)
             {
                 ViewBag.ShowErrorMsg = TempData["shortMessage"].ToString();
             }
 
+            
             privateMsg.LstPrivateMsg = list;
             return View(privateMsg);
         }
 
-       
+
+        // methode om bericht te verwijderen
         public ActionResult DeleteMsg(int id = 0)
         {
             PrivateMsg Dmsg = db.PrivateMsg.Find(id);
@@ -131,10 +135,11 @@ namespace PersonalTVGuide.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult PrivateMessage(PrivateMsg PMsg)
         {
-            
+            // ophalen van ingevoerde naam
             var naam = Request.Form["Naam"];
             try
             {
+                //UserId pakken van de ingevoerde naam
                 var ontvanger = dbU.UserProfiles.FirstOrDefault(u => u.UserName == naam).UserId;
                 db.PrivateMsg.Add(new PrivateMsg
                 {
@@ -146,6 +151,7 @@ namespace PersonalTVGuide.Controllers
                 });
                 db.SaveChanges();
                 ModelState.Clear();
+                //bericht in tempdata zetten zodat de andere methode hem kan gebruiken
                 TempData["shortMessage"] = "Bericht is verzonden!";
                
             }
