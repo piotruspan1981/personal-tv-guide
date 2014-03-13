@@ -119,14 +119,7 @@ namespace PersonalTVGuide.Controllers
                 .Join(dbS.Series, u => u.SerieId, s => s.SerieId, (u, s) => new { s.SerieName, s.SerieId, u.Id } )
                 .Select(s => new UserSerieFavorites { SerieName = s.SerieName, SerieId = s.SerieId, UhasSID = s.Id}).ToList();
 
-            //var UhasS = (from t in dbS.UserHasSeries
-            //             join s in dbS.Series on t.SerieId equals s.SerieId
-            //             where t.SerieId == s.SerieId && t.UserId == WebSecurity.CurrentUserId
-            //             select new 
-            //             {
-            //                 s.SerieId,
-            //                 s.SerieName
-            //             }).ToList();
+         
 
             return FavOverview;
         }
@@ -234,10 +227,7 @@ namespace PersonalTVGuide.Controllers
                 {
                     //// Nieuwe uitbreidingen op het Registeren pagina moeten  binnen new { model.Email, model.blaat, model.asd }
                     //// Anders klopt de 3e parameter van CreateUserAndAccount niet. Dat is een dictionary met objects property values.
-                    //WebSecurity.CreateUserAndAccount(model.UserName, model.Password, new { model.Email });
-                    //WebSecurity.Login(model.UserName, model.Password);
-                    //return RedirectToAction("Index", "Home");
-
+                    
                     string confirmationToken =
                     WebSecurity.CreateUserAndAccount(model.UserName, model.Password, new { Email = model.Email }, true);
                     dynamic email = new Email("RegEmail");
@@ -254,11 +244,7 @@ namespace PersonalTVGuide.Controllers
                     ModelState.AddModelError("", ErrorCodeToString(e.StatusCode));
                 }
             }
-            //else
-            //{
-            //    TempData["ErrorMessage"] = "Error: captcha is not valid.";
-            //    return View();
-            //}
+
             // If we got this far, something failed, redisplay form
             return View(model);
         }

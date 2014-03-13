@@ -107,13 +107,7 @@ namespace PersonalTVGuide.Controllers
                 //ViewBag.ShowResult = resultString;
 
                 WriteToDatabase(show);
-                //Favorite(show);
-
-                /* OPHALEN UIT DATABASE TEST */
-                //int serieid = Convert.ToInt32(Request.Form["ddlShows"]);
-                //Serie serie = db.Series.First(t => t.SerieId == serieid);
-                //ViewBag.serie = serie;
-                
+           
                 ViewBag.ShowErrorMsg = "Opslaan in database is gelukt!";
                 ViewBag.serie = show;
                 Index();
