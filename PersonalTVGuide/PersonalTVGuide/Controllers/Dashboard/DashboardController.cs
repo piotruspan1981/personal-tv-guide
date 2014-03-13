@@ -316,7 +316,7 @@ namespace PersonalTVGuide.Controllers
                                 }
                                 else
                                 {
-                                    // overschrijft bestaande gegevens met nieuwe(wss altijd het zelfde)
+                                    // overschrijft bestaande gegevens met nieuwe
                                     episodeExists.SerieId = show.ShowId;
                                     episodeExists.EpisodeNR = y.EpisodeNumber;
                                     episodeExists.EpisodeName = y.Title;
@@ -329,10 +329,6 @@ namespace PersonalTVGuide.Controllers
 
                             }
                        
-                       
-
-                           //TO DO!!
-                           ViewBag.ShowErrorMsg = "Serie bestaat al in database!";
                        
                     }
                 }
