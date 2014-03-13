@@ -48,9 +48,7 @@ namespace PersonalTVGuide.Controllers
             // alle resultaten in overview stoppen
             overview.LstSerieInfoAndEpisode = list;
 
-            //var OverviewToday = new SerieInfoAndEpisodes();
-            //OverviewToday.Episodes = dbE.Episodes.Where(e => e.Airdate == today || e.Airdate == tomorrow).ToList<Episode>();
-
+           
             //overview resultaten door geven aan view
             return View(overview);
         }
@@ -123,10 +121,7 @@ namespace PersonalTVGuide.Controllers
         //pakt de serie details van de gekozen serie.
         public ActionResult GetShowDetails(int id = 0)
         {
-            //int serieid = id;
-            //Serie serie = db.Series.First(t => t.SerieId == serieid);
-            //Episode episode = dbE.Episodes.First(t => t.SerieId == serieid);
-            
+                      
             var sie = new SerieInfoAndEpisodes();
             sie.Serie = db.Series.First(t => t.SerieId == id);
             sie.Episodes = dbE.Episodes.Where(e => e.SerieId == id).ToList<Episode>();
