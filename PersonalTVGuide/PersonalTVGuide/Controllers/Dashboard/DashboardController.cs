@@ -28,25 +28,25 @@ namespace PersonalTVGuide.Controllers
             DateTime tomorrow = DateTime.Now.Date.AddDays(1);
 
             //variabelen maken, lijst om de episodes in te kunnen stoppen
-            var overview = new ListSerieInfoAndEpisode();
-            var list = new List<ObjSerieInfoAndEpisode>();
+            var overview = new ListEpisodeAndSerieName();
+            var list = new List<EpisodeAndSerieName>();
 
             // query om de series van vandaag en morgen optehalen
             var allEpisodes = dbE.Episodes.Where(e => e.Airdate == today || e.Airdate == tomorrow).ToList<Episode>();
             foreach (var ep in allEpisodes)
             {
                 // toevoegen van gevonden resultaten
-                var se = new ObjSerieInfoAndEpisode();
-                se.EpisodeName = ep.EpisodeName;
-                se.EpisodeNr = ep.EpisodeNR;
-                se.EpisodeSeasonNr = ep.Season;
-                se.EpisodeAirdate = ep.Airdate;
-                se.SerieName = db.Series.FirstOrDefault(s => s.SerieId == ep.SerieId).SerieName;
+                var es = new EpisodeAndSerieName();
+                es.EpisodeName = ep.EpisodeName;
+                es.EpisodeNr = ep.EpisodeNR;
+                es.EpisodeSeasonNr = ep.Season;
+                es.EpisodeAirdate = ep.Airdate;
+                es.SerieName = db.Series.FirstOrDefault(s => s.SerieId == ep.SerieId).SerieName;
 
-                list.Add(se);
+                list.Add(es);
             }
             // alle resultaten in overview stoppen
-            overview.LstSerieInfoAndEpisode = list;
+            overview.LstEpisodeAndSerieName = list;
 
            
             //overview resultaten door geven aan view

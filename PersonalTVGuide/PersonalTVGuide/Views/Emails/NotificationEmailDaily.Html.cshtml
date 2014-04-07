@@ -14,8 +14,8 @@ Shows die op @DateTime.Now worden uitgezonden:</p>
                 </tr>
             </thead>
             <tbody>
-                @{PersonalTVGuide.Models.ListSerieInfoAndEpisode list = ViewBag.episodes;} 
-                @foreach (var ep in list.LstSerieInfoAndEpisode)
+                @{PersonalTVGuide.Models.ListEpisodeAndSerieName list = ViewBag.episodes;} 
+                @foreach (var ep in list.LstEpisodeAndSerieName)
                 {
                     <tr>
                         <td>@ep.SerieName</td>

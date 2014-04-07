@@ -61,12 +61,12 @@ namespace PersonalTVGuide.Models
        public List<Episode> Episodes { get; set; }
    }
 
-   public class ListSerieInfoAndEpisode
+   public class ListEpisodeAndSerieName
    {
-       public List<ObjSerieInfoAndEpisode> LstSerieInfoAndEpisode { get; set; }
+       public List<EpisodeAndSerieName> LstEpisodeAndSerieName { get; set; }
    }
 
-   public class ObjSerieInfoAndEpisode
+   public class EpisodeAndSerieName
    {
        public string SerieName { get; set; }
        public int EpisodeSeasonNr { get; set; }
