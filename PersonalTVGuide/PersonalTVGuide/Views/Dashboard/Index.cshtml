@@ -1,4 +1,4 @@
-﻿@model PersonalTVGuide.Models.ListSerieInfoAndEpisode
+﻿@model PersonalTVGuide.Models.ListEpisodeAndSerieName
 @{
     ViewBag.Title = "Dashboard";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -62,7 +62,7 @@
 		        </thead>
 		        <tbody>
 
-                    @foreach (var ep in Model.LstSerieInfoAndEpisode)
+                    @foreach (var ep in Model.LstEpisodeAndSerieName)
                     {
                         
                         if(ep.EpisodeAirdate == DateTime.Now.Date)
@@ -92,7 +92,7 @@
 			        </tr>
 		        </thead>
 		        <tbody>
-                    @foreach (var ep in Model.LstSerieInfoAndEpisode)
+                    @foreach (var ep in Model.LstEpisodeAndSerieName)
                     {
                         if (ep.EpisodeAirdate == DateTime.Now.Date.AddDays(1))
                         {

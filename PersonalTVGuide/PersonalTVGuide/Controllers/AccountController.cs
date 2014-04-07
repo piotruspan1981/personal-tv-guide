@@ -25,6 +25,7 @@ namespace PersonalTVGuide.Controllers
         private UsersContext db = new UsersContext();
         private SerieContext dbS = new SerieContext();
         private EpisodeContext dbE = new EpisodeContext();
+        private GlobalContext global = new GlobalContext();
         //
         // GET: /Account/Login
 
@@ -51,16 +52,22 @@ namespace PersonalTVGuide.Controllers
                     userProfile.LastOnline = DateTime.Now;
                     db.Entry(userProfile).State = EntityState.Modified;
                     db.SaveChanges();
-                
-
-                    dynamic email = new Email("NotificationEmail");
-                    email.To = userProfile.Email;
-                    email.UserName = userProfile.UserName;
-
-                    email.episodes = GetEpisodesForNotification(userProfile.NotificationFreq);
-
-                    email.Send();
                 }
+
+                // Haal de datum en tijd op wanneer de notificaties het laatst zijn verzonden
+                var notificationsSendDateTime = Convert.ToDateTime(global.GlobalSettings.SingleOrDefault(g => g.Name == "NotificationsSend").Value);
+                if (notificationsSendDateTime.Date < DateTime.Now.Date)
+                {
+                    FillEpisodesForNotificationAndSendMail();
+
+                    // Update de notificatie tijd, zodat de notification maar 1x per dag worden verstuurd naar een gebruiker
+                    using (GlobalContext glb = new GlobalContext())
+                    {
+                        var notificationSend = glb.GlobalSettings.SingleOrDefault(g => g.Name == "NotificationsSend");
+                        notificationSend.Value = DateTime.Now;
+                        glb.SaveChanges();
+                    }       
+                }       
 
                 //return RedirectToLocal(returnUrl);
                 return RedirectToAction("Index", "Dashboard");
@@ -71,37 +78,90 @@ namespace PersonalTVGuide.Controllers
             return View(model);
         }
 
-        public ListSerieInfoAndEpisode GetEpisodesForNotification(int freq)
+        private void FillEpisodesForNotificationAndSendMail()
         {
-            var notificationList = new ListSerieInfoAndEpisode();
-            var list = new List<ObjSerieInfoAndEpisode>();
-            var allEpisodes = new List<Episode>();
-            DateTime today = DateTime.Now.Date;
+            var today = DateTime.Now;
 
-            if (freq == 0)
-                allEpisodes = dbE.Episodes.Where(e => e.Airdate == today).ToList<Episode>();
-            else
+            var usersWithDailyNotifications = db.UserProfiles.Where(u => u.NotificationFreq == 0).ToList<UserProfile>();
+            var allEpisodesDaily = dbE.Episodes.Where(e => e.Airdate == today.Date).ToList<Episode>();
+
+            foreach (var user in usersWithDailyNotifications)
             {
+                var userHasSeries = dbS.UserHasSeries.Where(uhs => uhs.UserId == user.UserId).ToList<UserHasSerie>();
+                var listEpisodesAndSerieName = new List<EpisodeAndSerieName>();
+
+                foreach (var uhs in userHasSeries)
+                {
+                    var listES = allEpisodesDaily.Where(e => e.SerieId == uhs.SerieId)
+                        .Join(dbS.Series, e => e.SerieId, s => s.SerieId, (e, s) => new { e.EpisodeName, e.EpisodeNR, e.Season, e.Airdate, s.SerieName })
+                        .Select(es => new EpisodeAndSerieName
+                        {
+                            EpisodeName = es.EpisodeName,
+                            EpisodeNr = es.EpisodeNR,
+                            EpisodeSeasonNr = es.Season,
+                            EpisodeAirdate = es.Airdate,
+                            SerieName = es.SerieName
+                        }).ToList();
+
+                    foreach (var es in listES)
+                        listEpisodesAndSerieName.Add(es);
+                }
+
+                if (listEpisodesAndSerieName.Count != 0)
+                {
+                    // Verstuur email in HTML
+                    dynamic email = new Email("NotificationEmailDaily");
+                    email.To = user.Email;
+                    email.UserName = user.UserName;
+                    var lstES = new ListEpisodeAndSerieName();
+                    lstES.LstEpisodeAndSerieName = listEpisodesAndSerieName;
+                    email.episodes = lstES; // vieze hackzz!!
+                    email.Send();
+                }
+            }
+
+            //if (today.DayOfWeek == DayOfWeek.Monday)
+            //{
+                var usersWithWeeklyNotifications = db.UserProfiles.Where(u => u.NotificationFreq == 1).ToList<UserProfile>();
+
                 DateTime week = DateTime.Now.Date.AddDays(7);
-                allEpisodes = dbE.Episodes.Where(e => e.Airdate >= today && e.Airdate <= week).ToList<Episode>();
-            }
+                var allEpisodesWeekly = dbE.Episodes.Where(e => e.Airdate >= today.Date && e.Airdate <= week).ToList<Episode>();
 
-            foreach (var ep in allEpisodes)
-            {
-                // toevoegen van gevonden resultaten
-                var se = new ObjSerieInfoAndEpisode();
-                se.EpisodeName = ep.EpisodeName;
-                se.EpisodeNr = ep.EpisodeNR;
-                se.EpisodeSeasonNr = ep.Season;
-                se.EpisodeAirdate = ep.Airdate;
-                se.SerieName = dbS.Series.FirstOrDefault(s => s.SerieId == ep.SerieId).SerieName;
+                foreach (var user in usersWithWeeklyNotifications)
+                {
+                    var userHasSeries = dbS.UserHasSeries.Where(uhs => uhs.UserId == user.UserId).ToList<UserHasSerie>();
+                    var listEpisodesAndSerieName = new List<EpisodeAndSerieName>();
 
-                list.Add(se);
-            }
+                    foreach (var uhs in userHasSeries)
+                    {
+                        var listES = allEpisodesWeekly.Where(e => e.SerieId == uhs.SerieId)
+                            .Join(dbS.Series, e => e.SerieId, s => s.SerieId, (e, s) => new { e.EpisodeName, e.EpisodeNR, e.Season, e.Airdate, s.SerieName })
+                            .Select(se => new EpisodeAndSerieName
+                            {
+                                EpisodeName = se.EpisodeName,
+                                EpisodeNr = se.EpisodeNR,
+                                EpisodeSeasonNr = se.Season,
+                                EpisodeAirdate = se.Airdate,
+                                SerieName = se.SerieName
+                            }).ToList();
 
-            notificationList.LstSerieInfoAndEpisode = list;
+                        foreach (var es in listES)
+                            listEpisodesAndSerieName.Add(es);
+                    }
 
-            return notificationList;
+                    if (listEpisodesAndSerieName.Count != 0)
+                    {
+                        // Verstuur email in HTML
+                        dynamic email = new Email("NotificationEmailWeekly");
+                        email.To = user.Email;
+                        email.UserName = user.UserName;
+                        var lstES = new ListEpisodeAndSerieName();
+                        lstES.LstEpisodeAndSerieName = listEpisodesAndSerieName;
+                        email.episodes = lstES;
+                        email.Send();
+                    }
+                }
+            //}
         }
 
         // aanmaken van methode voor favoriete series overzicht.

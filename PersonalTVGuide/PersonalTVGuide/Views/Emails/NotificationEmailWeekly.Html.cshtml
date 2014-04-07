@@ -1,0 +1,30 @@
+﻿Content-Type: text/html; charset=utf-8
+
+<html>
+    <body>
+<p>Hallo @ViewBag.UserName, <br />
+Shows die deze week worden uitgezonden:</p> 
+        <table>
+            <thead>
+                <tr>
+                    <th>Show</th>
+                    <th>Episode</th>
+                    <th>Nummer</th>
+                    <th>Date</th>
+                </tr>
+            </thead>
+            <tbody>
+                @{PersonalTVGuide.Models.ListEpisodeAndSerieName list = ViewBag.episodes;} 
+                @foreach (var ep in list.LstEpisodeAndSerieName)
+                {
+                    <tr>
+                        <td>@ep.SerieName</td>
+                        <td>@ep.EpisodeName</td>
+                        <td>S @ep.EpisodeSeasonNr - E @ep.EpisodeNr</td>
+                        <td>@String.Format("{0:d}", ep.EpisodeAirdate)</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </body>
+</html>

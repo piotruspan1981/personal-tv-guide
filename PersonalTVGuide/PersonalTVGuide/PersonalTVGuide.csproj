@@ -227,6 +227,7 @@
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountModels.cs" />
     <Compile Include="Models\ChatModels.cs" />
+    <Compile Include="Models\GlobalModels.cs" />
     <Compile Include="Models\EpisodeModels.cs" />
     <Compile Include="Models\SerieModels.cs" />
     <Compile Include="TVShowObjects\TVRageEpisode.cs" />
@@ -382,8 +383,10 @@
     <Content Include="Views\Dashboard\GetShowDetails.cshtml" />
     <Content Include="Views\Chat\Index.cshtml" />
     <Content Include="Views\Chat\PrivatemessageInput.cshtml" />
-    <Content Include="Views\Emails\NotificationEmail.cshtml" />
-    <Content Include="Views\Emails\NotificationEmail.Html.cshtml" />
+    <Content Include="Views\Emails\NotificationEmailDaily.cshtml" />
+    <Content Include="Views\Emails\NotificationEmailDaily.Html.cshtml" />
+    <Content Include="Views\Emails\NotificationEmailWeekly.Html.cshtml" />
+    <Content Include="Views\Emails\NotificationEmailWeekly.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
