@@ -120,8 +120,8 @@ namespace PersonalTVGuide.Controllers
                 }
             }
 
-            //if (today.DayOfWeek == DayOfWeek.Monday)
-            //{
+            if (today.DayOfWeek == DayOfWeek.Monday)
+            {
                 var usersWithWeeklyNotifications = db.UserProfiles.Where(u => u.NotificationFreq == 1).ToList<UserProfile>();
 
                 DateTime week = DateTime.Now.Date.AddDays(7);
@@ -161,7 +161,7 @@ namespace PersonalTVGuide.Controllers
                         email.Send();
                     }
                 }
-            //}
+            }
         }
 
         // aanmaken van methode voor favoriete series overzicht.
