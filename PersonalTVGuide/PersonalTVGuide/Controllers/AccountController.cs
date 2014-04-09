@@ -82,7 +82,7 @@ namespace PersonalTVGuide.Controllers
         {
             var today = DateTime.Now;
 
-            var usersWithDailyNotifications = db.UserProfiles.Where(u => u.NotificationFreq == 0).ToList<UserProfile>();
+            var usersWithDailyNotifications = db.UserProfiles.Where(u => u.NotificationFreq == 0 || u.NotificationFreq == 2).ToList<UserProfile>();
             var allEpisodesDaily = dbE.Episodes.Where(e => e.Airdate == today.Date).ToList<Episode>();
 
             foreach (var user in usersWithDailyNotifications)
