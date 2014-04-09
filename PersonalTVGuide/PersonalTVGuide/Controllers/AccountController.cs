@@ -122,7 +122,7 @@ namespace PersonalTVGuide.Controllers
 
             if (today.DayOfWeek == DayOfWeek.Monday)
             {
-                var usersWithWeeklyNotifications = db.UserProfiles.Where(u => u.NotificationFreq == 1).ToList<UserProfile>();
+                var usersWithWeeklyNotifications = db.UserProfiles.Where(u => u.NotificationFreq == 1 || u.NotificationFreq == 2).ToList<UserProfile>();
 
                 DateTime week = DateTime.Now.Date.AddDays(7);
                 var allEpisodesWeekly = dbE.Episodes.Where(e => e.Airdate >= today.Date && e.Airdate <= week).ToList<Episode>();

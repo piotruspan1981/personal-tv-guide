@@ -48,67 +48,65 @@
 
 <h2>Dashboard</h2>
 <div>
-    <div style="width: 1090px;">
-        <div style="float:left; width:545px;"> 
-            <h3>Vandaag</h3> <br />  
-            <table id="vandaagTable">
-		        <thead>
-			        <tr>
-                        <th>Show</th>
-			            <th style="width: 15px;">Seizoen</th>
-			            <th style="width: 30px;">Nummer</th>
-			            <th>Naam</th>
-			        </tr>
-		        </thead>
-		        <tbody>
+    <div style="float:left; width:545px;"> 
+        <h3>Vandaag</h3> <br />  
+        <table id="vandaagTable">
+		    <thead>
+			    <tr>
+                    <th>Show</th>
+			        <th style="width: 15px;">Seizoen</th>
+			        <th style="width: 30px;">Nummer</th>
+			        <th>Naam</th>
+			    </tr>
+		    </thead>
+		    <tbody>
 
-                    @foreach (var ep in Model.LstEpisodeAndSerieName)
+                @foreach (var ep in Model.LstEpisodeAndSerieName)
+                {
+                        
+                    if(ep.EpisodeAirdate == DateTime.Now.Date)
                     {
-                        
-                        if(ep.EpisodeAirdate == DateTime.Now.Date)
-                        {
-                        <tr>
-                            <td>@ep.SerieName</td>
-                            <td>@ep.EpisodeSeasonNr</td>
-                            <td>@ep.EpisodeNr</td>
-                            <td>@ep.EpisodeName</td>
-                        </tr>
-                        }
-                        
-                        
+                    <tr>
+                        <td>@ep.SerieName</td>
+                        <td>@ep.EpisodeSeasonNr</td>
+                        <td>@ep.EpisodeNr</td>
+                        <td>@ep.EpisodeName</td>
+                    </tr>
                     }
-		        </tbody>
-	        </table>
-        </div>
-        <div style="float:right; width:545px;">
-            <h3>Morgen</h3><br />   
-            <table id="morgenTable">
-		        <thead>
-			        <tr>
-                        <th>Show</th>
-			            <th style="width: 15px;">Seizoen</th>
-			            <th style="width: 30px;">Nummer</th>
-			            <th>Naam</th>
-			        </tr>
-		        </thead>
-		        <tbody>
-                    @foreach (var ep in Model.LstEpisodeAndSerieName)
-                    {
-                        if (ep.EpisodeAirdate == DateTime.Now.Date.AddDays(1))
-                        {
-                        <tr>
-                            <td>@ep.SerieName</td>
-                            <td>@ep.EpisodeSeasonNr</td>
-                            <td>@ep.EpisodeNr</td>
-                            <td>@ep.EpisodeName</td>
-                        </tr>
-                        }
-                    }
-		        </tbody>
-	        </table>
-        </div>
-        <div style="clear: both" />
+                        
+                        
+                }
+		    </tbody>
+	    </table>
     </div>
+    <div style="float:right; width:545px;">
+        <h3>Morgen</h3><br />   
+        <table id="morgenTable">
+		    <thead>
+			    <tr>
+                    <th>Show</th>
+			        <th style="width: 15px;">Seizoen</th>
+			        <th style="width: 30px;">Nummer</th>
+			        <th>Naam</th>
+			    </tr>
+		    </thead>
+		    <tbody>
+                @foreach (var ep in Model.LstEpisodeAndSerieName)
+                {
+                    if (ep.EpisodeAirdate == DateTime.Now.Date.AddDays(1))
+                    {
+                    <tr>
+                        <td>@ep.SerieName</td>
+                        <td>@ep.EpisodeSeasonNr</td>
+                        <td>@ep.EpisodeNr</td>
+                        <td>@ep.EpisodeName</td>
+                    </tr>
+                    }
+                }
+		    </tbody>
+	    </table>
+    </div>
+    <div style="clear: both" />
     <br />
     <hr />
     
