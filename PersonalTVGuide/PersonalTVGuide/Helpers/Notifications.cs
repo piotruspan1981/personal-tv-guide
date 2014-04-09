@@ -16,6 +16,10 @@ namespace System.Web.Mvc
             new Notification {
                 NotificationId = 1,
                 Name = "Wekelijks"
+            },
+            new Notification {
+                NotificationId = 2,
+                Name = "Dagelijks en Wekelijks"
             }
         };
     }
