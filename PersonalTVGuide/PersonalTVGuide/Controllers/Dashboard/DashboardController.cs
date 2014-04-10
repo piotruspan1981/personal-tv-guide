@@ -151,7 +151,7 @@ namespace PersonalTVGuide.Controllers
                 foreach (var y in z.Episodes)
                 {
                     resultstring += "Season nr.: " + z.SeasonNumber + "<br />";
-                    resultstring += "Episode nr.: " + y.EpisodeNumber + "<br />";
+                    resultstring += "Episode nr.: " + y.EpisodeNumberThisSeason + "<br />";
                     resultstring += "Episode Title: " + y.Title + "<br />";
                     resultstring += "Airdate: " + y.AirDate + "<br />";
                     resultstring += "<br /><br />";
@@ -209,7 +209,7 @@ namespace PersonalTVGuide.Controllers
                     foreach (var y in z.Episodes)
                     {
                         Episode episodeExists = null;
-                        episodeExists = dbE.Episodes.FirstOrDefault(e => e.EpisodeNR == y.EpisodeNumber && e.SerieId == show.ShowId && e.Season == z.SeasonNumber);
+                        episodeExists = dbE.Episodes.FirstOrDefault(e => e.EpisodeNR == y.EpisodeNumberThisSeason && e.SerieId == show.ShowId && e.Season == z.SeasonNumber);
 
                         // voegt nieuwe episode toe als die nog niet in DB staat.
                         if (episodeExists == null)
@@ -218,7 +218,7 @@ namespace PersonalTVGuide.Controllers
                             dbE.Episodes.Add(new Episode
                             {
                                 SerieId = show.ShowId,
-                                EpisodeNR = y.EpisodeNumber,
+                                EpisodeNR = y.EpisodeNumberThisSeason,
                                 EpisodeName = y.Title,
                                 Airdate = y.AirDate,
                                 Season = y.SeasonNumber,
@@ -230,7 +230,7 @@ namespace PersonalTVGuide.Controllers
                         {
                             // overschrijft bestaande gegevens met nieuwe(wss altijd het zelfde)
                             episodeExists.SerieId = show.ShowId;
-                            episodeExists.EpisodeNR = y.EpisodeNumber;
+                            episodeExists.EpisodeNR = y.EpisodeNumberThisSeason;
                             episodeExists.EpisodeName = y.Title;
                             episodeExists.Airdate = y.AirDate;
                             episodeExists.Season = y.SeasonNumber;
@@ -281,7 +281,7 @@ namespace PersonalTVGuide.Controllers
                                 dbE.Episodes.Add(new Episode
                                 {
                                     SerieId = show.ShowId,
-                                    EpisodeNR = y.EpisodeNumber,
+                                    EpisodeNR = y.EpisodeNumberThisSeason,
                                     EpisodeName = y.Title,
                                     Airdate = y.AirDate,
                                     Season = y.SeasonNumber,
@@ -294,7 +294,7 @@ namespace PersonalTVGuide.Controllers
                             foreach (var y in z.Episodes)
                             {
                                 Episode episodeExists = null;
-                                episodeExists = dbE.Episodes.FirstOrDefault(e => e.EpisodeNR == y.EpisodeNumber && e.SerieId == show.ShowId && e.Season == z.SeasonNumber);
+                                episodeExists = dbE.Episodes.FirstOrDefault(e => e.EpisodeNR == y.EpisodeNumberThisSeason && e.SerieId == show.ShowId && e.Season == z.SeasonNumber);
                                 // voegt nieuwe episode toe als die nog niet in DB staat.
                                 if (episodeExists == null)
                                 {
@@ -302,7 +302,7 @@ namespace PersonalTVGuide.Controllers
                                     dbE.Episodes.Add(new Episode
                                     {
                                         SerieId = show.ShowId,
-                                        EpisodeNR = y.EpisodeNumber,
+                                        EpisodeNR = y.EpisodeNumberThisSeason,
                                         EpisodeName = y.Title,
                                         Airdate = y.AirDate,
                                         Season = y.SeasonNumber,
@@ -313,7 +313,7 @@ namespace PersonalTVGuide.Controllers
                                 {
                                     // overschrijft bestaande gegevens met nieuwe
                                     episodeExists.SerieId = show.ShowId;
-                                    episodeExists.EpisodeNR = y.EpisodeNumber;
+                                    episodeExists.EpisodeNR = y.EpisodeNumberThisSeason;
                                     episodeExists.EpisodeName = y.Title;
                                     episodeExists.Airdate = y.AirDate;
                                     episodeExists.Season = y.SeasonNumber;

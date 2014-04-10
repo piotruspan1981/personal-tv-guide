@@ -61,7 +61,8 @@ namespace PersonalTVGuide.InformationProviders
                                                            Link = Get<string>(e.Element("link")),
                                                            ImageUrl = Get<string>(e.Element("screencap")),
                                                            ShowName = Get<string>(seas.Element("name")),
-                                                           SeasonNumber = Convert.ToInt32(season.Attribute("no").Value)
+                                                           SeasonNumber = Convert.ToInt32(season.Attribute("no").Value),
+                                                           EpisodeNumberThisSeason = Get<int>(e.Element("seasonnum"))
                                                        }).OrderBy(w => w.EpisodeNumber).ToList()
                                    }).ToList()
                 };
