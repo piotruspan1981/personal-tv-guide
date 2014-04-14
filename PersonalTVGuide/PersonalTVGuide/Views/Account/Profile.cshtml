@@ -29,6 +29,10 @@
             {
                 temp = "Dagelijks en Wekelijks";
             }
+            else if (Model.NotificationFreq == 3)
+            {
+                temp = "Geen";
+            }
             <b>Mail Notificatie:</b> @temp <br /> 
             <b>Laatste login:</b> @Model.LastOnline<br />
    
