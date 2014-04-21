@@ -62,19 +62,16 @@
 		    <tbody>
 
                 @foreach (var ep in Model.LstEpisodeAndSerieName)
-                {
-                        
+                {    
                     if(ep.EpisodeAirdate == DateTime.Now.Date)
                     {
-                    <tr>
-                        <td>@ep.SerieName</td>
-                        <td>@ep.EpisodeSeasonNr</td>
-                        <td>@ep.EpisodeNr</td>
-                        <td>@ep.EpisodeName</td>
-                    </tr>
+                        <tr>
+                            <td>@Html.ActionLink(ep.SerieName, "GetShowDetails", "Dashboard", new { id=ep.SerieId }, null)</td>
+                            <td>@ep.EpisodeSeasonNr</td>
+                            <td>@ep.EpisodeNr</td>
+                            <td>@ep.EpisodeName</td>
+                        </tr>
                     }
-                        
-                        
                 }
 		    </tbody>
 	    </table>
@@ -95,12 +92,12 @@
                 {
                     if (ep.EpisodeAirdate == DateTime.Now.Date.AddDays(1))
                     {
-                    <tr>
-                        <td>@ep.SerieName</td>
-                        <td>@ep.EpisodeSeasonNr</td>
-                        <td>@ep.EpisodeNr</td>
-                        <td>@ep.EpisodeName</td>
-                    </tr>
+                        <tr>
+                            <td>@Html.ActionLink(ep.SerieName, "GetShowDetails", "Dashboard", new { id=ep.SerieId }, null)</td>
+                            <td>@ep.EpisodeSeasonNr</td>
+                            <td>@ep.EpisodeNr</td>
+                            <td>@ep.EpisodeName</td>
+                        </tr>
                     }
                 }
 		    </tbody>
@@ -147,7 +144,7 @@
     @if (Convert.ToInt32(ViewBag.ShowCount) > 0)
     { 
         <br />
-        using (Html.BeginForm("GetShowDetailsForDB", "Dashboard", FormMethod.Post))
+        using (Html.BeginForm("GetShowDetailsForDb", "Dashboard", FormMethod.Post))
         {
             @Html.DropDownList("ddlShows")
 

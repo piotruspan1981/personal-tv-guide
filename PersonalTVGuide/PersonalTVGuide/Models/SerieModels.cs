@@ -68,6 +68,8 @@ namespace PersonalTVGuide.Models
 
    public class EpisodeAndSerieName
    {
+       public int SerieId { get; set; }
+       public int EpisodeId { get; set; }
        public string SerieName { get; set; }
        public int EpisodeSeasonNr { get; set; }
        public int EpisodeNr { get; set; }
