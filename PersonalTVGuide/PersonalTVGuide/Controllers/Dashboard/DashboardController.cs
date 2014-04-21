@@ -1,54 +1,49 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
-using PersonalTVGuide.Models;
+using PersonalTVGuide.Filters;
 using PersonalTVGuide.InformationProviders;
+using PersonalTVGuide.Models;
 using PersonalTVGuide.TVShowObjects;
 using WebMatrix.WebData;
-using PersonalTVGuide.Filters;
-using System.Data.Entity;
 
-namespace PersonalTVGuide.Controllers
+namespace PersonalTVGuide.Controllers.Dashboard
 {
     [InitializeSimpleMembership]
     public class DashboardController : Controller
     {
         //
         // GET: /Dashboard/
-        private SerieContext db = new SerieContext();
-        private EpisodeContext dbE = new EpisodeContext();
+        private readonly SerieContext _db = new SerieContext();
+        private readonly EpisodeContext _dbE = new EpisodeContext();
         
         [Authorize]
         public ActionResult Index()
         {
             //datum van vandaag en morgen pakken
-            DateTime today = DateTime.Now.Date;
-            DateTime tomorrow = DateTime.Now.Date.AddDays(1);
+            var today = DateTime.Now.Date;
+            var tomorrow = DateTime.Now.Date.AddDays(1);
 
             //variabelen maken, lijst om de episodes in te kunnen stoppen
             var overview = new ListEpisodeAndSerieName();
-            var list = new List<EpisodeAndSerieName>();
 
             // query om de series van vandaag en morgen optehalen
-            var allEpisodes = dbE.Episodes.Where(e => e.Airdate == today || e.Airdate == tomorrow).ToList<Episode>();
-            foreach (var ep in allEpisodes)
+            var allEpisodes = _dbE.Episodes.Where(e => e.Airdate == today || e.Airdate == tomorrow).ToList();
+            var list = allEpisodes.Select(ep => new EpisodeAndSerieName
             {
-                // toevoegen van gevonden resultaten
-                var es = new EpisodeAndSerieName();
-                es.EpisodeName = ep.EpisodeName;
-                es.EpisodeNr = ep.EpisodeNR;
-                es.EpisodeSeasonNr = ep.Season;
-                es.EpisodeAirdate = ep.Airdate;
-                es.SerieName = db.Series.FirstOrDefault(s => s.SerieId == ep.SerieId).SerieName;
-
-                list.Add(es);
-            }
+                EpisodeId = ep.EpisodeId,
+                EpisodeName = ep.EpisodeName,
+                EpisodeNr = ep.EpisodeNR,
+                EpisodeSeasonNr = ep.Season,
+                EpisodeAirdate = ep.Airdate,
+                SerieId = ep.SerieId,
+                SerieName = _db.Series.FirstOrDefault(s => s.SerieId == ep.SerieId).SerieName
+            }).ToList();
             // alle resultaten in overview stoppen
             overview.LstEpisodeAndSerieName = list;
 
-           
             //overview resultaten door geven aan view
             return View(overview);
         }
@@ -57,7 +52,7 @@ namespace PersonalTVGuide.Controllers
         {
             // Haal eerst de resultaten op van de zoekactie
             var tvrip = new TvRageInformationProvider();
-            var showList = new List<TVRageShow>();
+            List<TVRageShow> showList;
             try
             {
                 showList = tvrip.GetShows(Convert.ToString(Request.Form["searchResult"]));
@@ -69,16 +64,11 @@ namespace PersonalTVGuide.Controllers
             //telt hoeveel objecten in showlist staat en stopt het in viewbag
             ViewBag.ShowCount = showList.Count;
 
-            var ddlItems = new List<SelectListItem>();
             // stopt alle results in ddlItems
-            foreach (var s in showList)
+            var ddlItems = showList.Select(s => new SelectListItem
             {
-                ddlItems.Add(new SelectListItem
-                {
-                    Text = s.Name,
-                    Value = Convert.ToString(s.ShowId)
-                });
-            }
+                Text = s.Name, Value = Convert.ToString(s.ShowId)
+            }).ToList();
 
             ViewBag.ddlShows = ddlItems;
             Index();
@@ -86,15 +76,13 @@ namespace PersonalTVGuide.Controllers
         }
 
         [HttpPost]
-        public ActionResult GetShowDetailsForDB()
+        public ActionResult GetShowDetailsForDb()
         {
             try
             {
                 // Haal de details op
                 var tvrip = new TvRageInformationProvider();
-                var show = new TVRageShow();
-
-                show = tvrip.GetFullDetails(Convert.ToInt32(Request.Form["ddlShows"]));
+                var show = tvrip.GetFullDetails(Convert.ToInt32(Request.Form["ddlShows"]));
 
                 /*  Zet alle details in string om het op pagina te printen.
                     Is meer debug info, daarom uitgeschakeld!
@@ -122,9 +110,11 @@ namespace PersonalTVGuide.Controllers
         public ActionResult GetShowDetails(int id = 0)
         {
                       
-            var sie = new SerieInfoAndEpisodes();
-            sie.Serie = db.Series.First(t => t.SerieId == id);
-            sie.Episodes = dbE.Episodes.Where(e => e.SerieId == id).ToList<Episode>();
+            var sie = new SerieInfoAndEpisodes
+            {
+                Serie = _db.Series.First(t => t.SerieId == id),
+                Episodes = _dbE.Episodes.Where(e => e.SerieId == id).ToList()
+            };
 
             return View(sie);
         }
@@ -168,7 +158,7 @@ namespace PersonalTVGuide.Controllers
         {
             // pakt huide serieId
             var showId = Convert.ToInt32(Request.Form["hiddenShowId"]);
-            using (SerieContext db = new SerieContext())
+            using (var db = new SerieContext())
             {
                 //voert een zoekopdracht uit in de database om te kijken of user als serie als favoriet heeft.
                 var uhsExists = db.UserHasSeries.FirstOrDefault(s => s.SerieId == showId && s.UserId == WebSecurity.CurrentUserId);
@@ -198,24 +188,22 @@ namespace PersonalTVGuide.Controllers
         public ActionResult Update()
         {
             var tvrip = new TvRageInformationProvider();
-            var show = new TVRageShow();
             // pakt ID van current serie
             var showId = Convert.ToInt32(Request.Form["hiddenShowId"]);
             // pakt show details die bij de serie hoort
-            show = tvrip.GetFullDetails(showId);
+            var show = tvrip.GetFullDetails(showId);
             //door loopt alle gegevens of ze nog kloppen. als episode nog niet in db staat, wordt die toegevoegd. 
             //wanneer die episode al wel bestaat wordt er gekeken of er dingen zijn verandert en past dit aan. 
                 foreach (var z in show.Seasons)
                     foreach (var y in z.Episodes)
                     {
-                        Episode episodeExists = null;
-                        episodeExists = dbE.Episodes.FirstOrDefault(e => e.EpisodeNR == y.EpisodeNumberThisSeason && e.SerieId == show.ShowId && e.Season == z.SeasonNumber);
+                        var episodeExists = _dbE.Episodes.FirstOrDefault(e => e.EpisodeNR == y.EpisodeNumberThisSeason && e.SerieId == show.ShowId && e.Season == z.SeasonNumber);
 
                         // voegt nieuwe episode toe als die nog niet in DB staat.
                         if (episodeExists == null)
                         {
 
-                            dbE.Episodes.Add(new Episode
+                            _dbE.Episodes.Add(new Episode
                             {
                                 SerieId = show.ShowId,
                                 EpisodeNR = y.EpisodeNumberThisSeason,
@@ -223,7 +211,7 @@ namespace PersonalTVGuide.Controllers
                                 Airdate = y.AirDate,
                                 Season = y.SeasonNumber,
                             });
-                            dbE.SaveChanges();
+                            _dbE.SaveChanges();
                         }
 
                         else
@@ -234,8 +222,8 @@ namespace PersonalTVGuide.Controllers
                             episodeExists.EpisodeName = y.Title;
                             episodeExists.Airdate = y.AirDate;
                             episodeExists.Season = y.SeasonNumber;
-                            dbE.Entry(episodeExists).State = EntityState.Modified;
-                            dbE.SaveChanges();
+                            _dbE.Entry(episodeExists).State = EntityState.Modified;
+                            _dbE.SaveChanges();
                         }
 
 
@@ -254,8 +242,8 @@ namespace PersonalTVGuide.Controllers
             if (ModelState.IsValid)
             {
                 // Insert a new serie into the database
-                using (SerieContext db = new SerieContext())
-                using (EpisodeContext dbE = new EpisodeContext())
+                using (var db = new SerieContext())
+                using (var dbE = new EpisodeContext())
                 {
                     Serie serieExists = db.Series.FirstOrDefault(s => s.SerieId == show.ShowId);
                     //Check if serie already exists
@@ -293,8 +281,7 @@ namespace PersonalTVGuide.Controllers
                         foreach (var z in show.Seasons)
                             foreach (var y in z.Episodes)
                             {
-                                Episode episodeExists = null;
-                                episodeExists = dbE.Episodes.FirstOrDefault(e => e.EpisodeNR == y.EpisodeNumberThisSeason && e.SerieId == show.ShowId && e.Season == z.SeasonNumber);
+                                var episodeExists = dbE.Episodes.FirstOrDefault(e => e.EpisodeNR == y.EpisodeNumberThisSeason && e.SerieId == show.ShowId && e.Season == z.SeasonNumber);
                                 // voegt nieuwe episode toe als die nog niet in DB staat.
                                 if (episodeExists == null)
                                 {
