@@ -1,9 +1,17 @@
-﻿@model PersonalTVGuide.Models.SerieInfoAndEpisodes
+﻿@using PersonalTVGuide.Models
+@model SerieInfoAndEpisodes
 @{
     ViewBag.Title = "Serie details";
 }
 
 <script type="text/javascript">
+    function cbOnClick(serieId, episodeId) {
+        var url = '@Html.Raw(Url.Action("GetShowDetails", "Dashboard", new { serieId = "par1", episodeId = "par2" }, null))';
+        url = url.replace("par1", serieId);
+        url = url.replace("par2", episodeId);
+        window.location = url;
+    }
+
     //The sorting for the Date column in form dd-MM-yyyy
     jQuery.extend(jQuery.fn.dataTableExt.oSort, {
         "date-uk-pre": function (a) {
@@ -27,10 +35,10 @@
             "iDisplayLength": 20,
             "aoColumnDefs": [{ "sType": "date-uk", "aTargets": [3] }],
             "aoColumns": [
-            /* Seizoen */   null,
-            /* Nummer */    null,
-            /* Naam */      null,
-            /* Datum */     null]
+                /* Seizoen */   null,
+                /* Nummer */    null,
+                /* Naam */      null,
+                /* Datum */     null]
         });
     }
 
@@ -57,7 +65,7 @@
     <div style="float:right">
         <img src="@Url.Content(Model.Serie.IMG_url)" alt="@Model.Serie.SerieName" style="height: 300px" />
     </div>
-    <div style="clear: both" />
+    <div style="clear: both"></div>
 </div>
 <br />
 <hr />
@@ -73,6 +81,7 @@
 			        <th style="width: 30px;">Nummer</th>
 			        <th>Naam</th>
 			        <th style="width: 100px;">Uitzenddatum</th>
+                    <th style="width: 15px;">Gezien</th>
 			    </tr>
 		    </thead>
 		    <tbody>
@@ -83,6 +92,15 @@
                         <td>@ep.EpisodeNR</td>
                         <td>@ep.EpisodeName</td>
                         <td>@String.Format("{0:d}", ep.Airdate)</td>
+
+                        @if (Model.CheckedEpisodes.FirstOrDefault(c => c.UserId == WebSecurity.CurrentUserId && c.EpisodeId == ep.EpisodeId) != null)
+                        {
+                            <td>@Html.CheckBox("cb" + ep.EpisodeId, true, new {onclick = "cbOnClick(" + ep.SerieId + ", " + ep.EpisodeId + ")"})</td>
+                        }
+                        else
+                        {
+                            <td> @Html.CheckBox("cb" + ep.EpisodeId, false, new {onclick = "cbOnClick(" + ep.SerieId + ", " + ep.EpisodeId + ")"})</td>
+                        }                       
                     </tr>
                 }
 		    </tbody>
