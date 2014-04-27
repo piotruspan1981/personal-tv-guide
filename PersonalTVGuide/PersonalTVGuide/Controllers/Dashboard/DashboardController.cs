@@ -7,6 +7,7 @@ using PersonalTVGuide.Filters;
 using PersonalTVGuide.InformationProviders;
 using PersonalTVGuide.Models;
 using PersonalTVGuide.TVShowObjects;
+using WebGrease.Css.Ast.Selectors;
 using WebMatrix.WebData;
 
 namespace PersonalTVGuide.Controllers.Dashboard
@@ -29,7 +30,7 @@ namespace PersonalTVGuide.Controllers.Dashboard
             //variabelen maken, lijst om de episodes in te kunnen stoppen
             var overview = new ListEpisodeAndSerieName();
 
-            // query om de series van vandaag en morgen optehalen
+            // query om de series van vandaag en morgen op te halen
             var allEpisodes = _dbE.Episodes.Where(e => e.Airdate == today || e.Airdate == tomorrow).ToList();
             var list = allEpisodes.Select(ep => new EpisodeAndSerieName
             {
@@ -106,14 +107,41 @@ namespace PersonalTVGuide.Controllers.Dashboard
             }
         }
 
-        //pakt de serie details van de gekozen serie.
-        public ActionResult GetShowDetails(int id = 0)
+        //Zet een aflevering op checked wanneer deze is bekeken of niet
+        public ActionResult GetShowDetails(int serieId = 0, int episodeId = -1)
         {
-                      
+            var userId = WebSecurity.CurrentUserId;
+
+            if (episodeId != -1)
+            {
+                var exists = _dbE.CheckedEpisodes.FirstOrDefault(c => c.UserId == userId && c.EpisodeId == episodeId);
+
+                using (var dbC = new EpisodeContext())
+                {
+                    if (exists == null)
+                        dbC.CheckedEpisodes.Add(new CheckedEpisodes
+                        {
+                            UserId = userId,
+                            EpisodeId = episodeId
+                        });
+                    else
+                    {
+                        dbC.CheckedEpisodes.Attach(exists);
+                        dbC.CheckedEpisodes.Remove(exists);
+                    }
+
+                    dbC.SaveChanges();
+                }
+            }
+
+            var episodes = _dbE.Episodes.Where(e => e.SerieId == serieId).ToList();
+            var checkedEpisodes = episodes.Select(episode => _dbE.CheckedEpisodes.FirstOrDefault(c => c.UserId == userId && c.EpisodeId == episode.EpisodeId)).Where(found => found != null).ToList();
+
             var sie = new SerieInfoAndEpisodes
             {
-                Serie = _db.Series.First(t => t.SerieId == id),
-                Episodes = _dbE.Episodes.Where(e => e.SerieId == id).ToList()
+                Serie = _db.Series.First(t => t.SerieId == serieId),
+                Episodes = episodes,
+                CheckedEpisodes = checkedEpisodes
             };
 
             return View(sie);

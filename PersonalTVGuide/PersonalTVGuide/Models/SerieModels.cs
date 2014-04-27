@@ -59,6 +59,7 @@ namespace PersonalTVGuide.Models
    {
        public Serie Serie { get; set; }
        public List<Episode> Episodes { get; set; }
+       public List<CheckedEpisodes> CheckedEpisodes { get; set; } 
    }
 
    public class ListEpisodeAndSerieName

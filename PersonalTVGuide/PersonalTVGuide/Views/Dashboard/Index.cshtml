@@ -66,7 +66,7 @@
                     if(ep.EpisodeAirdate == DateTime.Now.Date)
                     {
                         <tr>
-                            <td>@Html.ActionLink(ep.SerieName, "GetShowDetails", "Dashboard", new { id=ep.SerieId }, null)</td>
+                            <td>@Html.ActionLink(ep.SerieName, "GetShowDetails", "Dashboard", new { serieId = ep.SerieId }, null)</td>
                             <td>@ep.EpisodeSeasonNr</td>
                             <td>@ep.EpisodeNr</td>
                             <td>@ep.EpisodeName</td>
@@ -93,7 +93,7 @@
                     if (ep.EpisodeAirdate == DateTime.Now.Date.AddDays(1))
                     {
                         <tr>
-                            <td>@Html.ActionLink(ep.SerieName, "GetShowDetails", "Dashboard", new { id=ep.SerieId }, null)</td>
+                            <td>@Html.ActionLink(ep.SerieName, "GetShowDetails", "Dashboard", new { serieId=ep.SerieId }, null)</td>
                             <td>@ep.EpisodeSeasonNr</td>
                             <td>@ep.EpisodeNr</td>
                             <td>@ep.EpisodeName</td>
@@ -179,7 +179,7 @@
             <div style="float: right">
                 <input type="hidden" name="hiddenShowId" id="hiddenShowId" value="@ViewBag.serie.ShowId" />
                 <input type="submit" value="Maak Favoriet" />
-                @Html.ActionLink("Details", "GetShowDetails", new { id=@ViewBag.serie.ShowId }) 
+                @Html.ActionLink("Details", "GetShowDetails", new { serieId=@ViewBag.serie.ShowId }) 
             </div>
             }
         }
