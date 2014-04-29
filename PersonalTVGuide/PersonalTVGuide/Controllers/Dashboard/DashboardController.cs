@@ -111,38 +111,60 @@ namespace PersonalTVGuide.Controllers.Dashboard
         public ActionResult GetShowDetails(int serieId = 0, int episodeId = -1)
         {
             var userId = WebSecurity.CurrentUserId;
+            SerieInfoAndEpisodes sie;
 
-            if (episodeId != -1)
+            if (Session["SerieInfoAndEpisodes"] == null)
             {
-                var exists = _dbE.CheckedEpisodes.FirstOrDefault(c => c.UserId == userId && c.EpisodeId == episodeId);
+                var episodes = _dbE.Episodes.Where(e => e.SerieId == serieId).ToList();
+                var checkedEpisodes =
+                    episodes.Select(
+                        episode =>
+                            _dbE.CheckedEpisodes.FirstOrDefault(
+                                c => c.UserId == userId && c.EpisodeId == episode.EpisodeId))
+                        .Where(found => found != null)
+                        .ToList();
 
-                using (var dbC = new EpisodeContext())
+                sie = new SerieInfoAndEpisodes
                 {
-                    if (exists == null)
-                        dbC.CheckedEpisodes.Add(new CheckedEpisodes
-                        {
-                            UserId = userId,
-                            EpisodeId = episodeId
-                        });
-                    else
-                    {
-                        dbC.CheckedEpisodes.Attach(exists);
-                        dbC.CheckedEpisodes.Remove(exists);
-                    }
+                    Serie = _db.Series.First(t => t.SerieId == serieId),
+                    Episodes = episodes,
+                    CheckedEpisodes = checkedEpisodes
+                };
 
-                    dbC.SaveChanges();
+                Session["SerieInfoAndEpisodes"] = sie;
+            }
+            else
+            {
+                sie = (SerieInfoAndEpisodes) Session["SerieInfoAndEpisodes"];
+
+                if (episodeId != -1)
+                {
+                    var exists = _dbE.CheckedEpisodes.FirstOrDefault(c => c.UserId == userId && c.EpisodeId == episodeId);
+
+                    using (var dbC = new EpisodeContext())
+                    {
+                        if (exists == null)
+                        {
+                            var newCheckedEpisode = new CheckedEpisodes
+                            {
+                                UserId = userId,
+                                EpisodeId = episodeId
+                            };
+
+                            dbC.CheckedEpisodes.Add(newCheckedEpisode);
+                            sie.CheckedEpisodes.Add(newCheckedEpisode);
+                        }
+                        else
+                        {
+                            dbC.CheckedEpisodes.Attach(exists);
+                            dbC.CheckedEpisodes.Remove(exists);
+                            sie.CheckedEpisodes.Remove(exists);
+                        }
+
+                        dbC.SaveChanges();
+                    }
                 }
             }
-
-            var episodes = _dbE.Episodes.Where(e => e.SerieId == serieId).ToList();
-            var checkedEpisodes = episodes.Select(episode => _dbE.CheckedEpisodes.FirstOrDefault(c => c.UserId == userId && c.EpisodeId == episode.EpisodeId)).Where(found => found != null).ToList();
-
-            var sie = new SerieInfoAndEpisodes
-            {
-                Serie = _db.Series.First(t => t.SerieId == serieId),
-                Episodes = episodes,
-                CheckedEpisodes = checkedEpisodes
-            };
 
             return View(sie);
         }

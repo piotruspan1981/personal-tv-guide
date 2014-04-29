@@ -6,9 +6,9 @@
 
 <script type="text/javascript">
     function cbOnClick(serieId, episodeId) {
-        var url = '@Html.Raw(Url.Action("GetShowDetails", "Dashboard", new { serieId = "par1", episodeId = "par2" }, null))';
-        url = url.replace("par1", serieId);
-        url = url.replace("par2", episodeId);
+        var url = '@Html.Raw(Url.Action("GetShowDetails", "Dashboard", new { serieId = "var1", episodeId = "var2" }, null))';
+        url = url.replace("var1", serieId);
+        url = url.replace("var2", episodeId);
         window.location = url;
     }
 
