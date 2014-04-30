@@ -158,7 +158,9 @@ namespace PersonalTVGuide.Controllers.Dashboard
                         {
                             dbC.CheckedEpisodes.Attach(exists);
                             dbC.CheckedEpisodes.Remove(exists);
-                            sie.CheckedEpisodes.Remove(exists);
+
+                            var objToRemove = sie.CheckedEpisodes.Find(e => e.EpisodeId == episodeId);
+                            sie.CheckedEpisodes.Remove(objToRemove);
                         }
 
                         dbC.SaveChanges();
